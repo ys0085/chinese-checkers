@@ -10,10 +10,11 @@ public class Main {
         } catch (Exception e) {
             port = 54321;
         }
-        Server.getInstance().setPort(port);
+        Server server = Server.getInstance();
+        server.setPort(port);
         System.out.println("Launching server on port " + port);
         try {
-            Server.getInstance().launch();
+            server.launch();
         } catch (IOException e) {
             System.out.println("Unexpected error while launching: ");
             e.printStackTrace();

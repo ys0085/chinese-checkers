@@ -12,13 +12,13 @@ public class Server {
 
     //Singleton pattern using double-checked locking
 
-    private static Server instance;
+    private static Server instance = null;
 
     private Server(){}
 
     public static Server getInstance(){
         if (instance == null){
-            synchronized(Server.instance){
+            synchronized(Server.class){
                 if(instance == null) instance = new Server();
             }
         }
@@ -43,16 +43,21 @@ public class Server {
         }
     }
 
-    private ArrayList<GameSession> sessions;
+    private ArrayList<GameSession> sessions = new ArrayList<>();
 
-    public void createSession(String sessionID) throws SessionExistsException {
+    public void createSession(String sessionID, int playerCount) throws SessionExistsException {
         for(GameSession s : sessions){
             if(s.getID().equals(sessionID)){
                 throw new SessionExistsException();
             }
         }
-        GameSession session = new GameSession(sessionID);
-        
-    };
+        if (!(playerCount == 2 || playerCount == 3 || playerCount == 4 || playerCount == 6)) return;
+        GameSession session = new GameSession(sessionID, playerCount);
+        sessions.add(session);
+    }
+
+    public ArrayList<GameSession> getSessionList(){
+        return sessions;
+    }
 
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.tp.exception.NoSuchSessionException;
+import com.tp.exception.PlayerAlreadyInSessionException;
 import com.tp.exception.SessionExistsException;
 import com.tp.exception.ColorOccupiedException;
 
@@ -20,6 +21,8 @@ public class Player implements Runnable {
     private Socket socket;
     private String name;
     
+    private GameSession currentSession;
+
     Player(Socket socket) {
         this.socket = socket;
         this.name = defaultName;
@@ -67,11 +70,12 @@ public class Player implements Runnable {
                         break;
                     case "JOINROOM": //Syntax: "JOINROOM name color" name = String no spaces, color = String from enum Color
                         try{
-                            joinSession(tokens[1], tokens[2].toUpperCase());
-                            out.println("OK");
+                            out.println(joinSession(tokens[1], tokens[2].toUpperCase()) ? "OK" : "ERR");
                         } catch (NoSuchSessionException e) {
-                            out.println("ERR");
+                            out.println("ERR"); // TODO: mozesz pozmieniac te errory na rozne polecenia np ERR1 ERR2 zeby inaczej klient reagowal
                         } catch (ColorOccupiedException e) {
+                            out.println("ERR");
+                        } catch (PlayerAlreadyInSessionException e) {
                             out.println("ERR");
                         }
                         break;
@@ -82,13 +86,20 @@ public class Player implements Runnable {
                             }
                             out.println("OK");
                         }
+                        break;
+                    case "LEAVEROOM":
+                        out.println(leaveSession() ? "OK" : "ERR");  
+                        break;
+                    case "MOVE":
+                        out.println(currentSession.getBoard().move(new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))));
+                        break;
                     default:
                         break;
                 }
             }
             in.close();
         } catch (Exception e) {
-            System.out.println("Error:" + socket);
+            System.out.println("Error: " + socket);
             e.printStackTrace();
         } finally {
             try {
@@ -99,7 +110,9 @@ public class Player implements Runnable {
         }
     }
 
-    private void joinSession(String sessionID, String color) throws NoSuchSessionException, ColorOccupiedException {
+    private boolean joinSession(String sessionID, String color) 
+    throws NoSuchSessionException, ColorOccupiedException, PlayerAlreadyInSessionException {
+        if(currentSession != null) throw new PlayerAlreadyInSessionException();
         ArrayList<GameSession> sessions = server.getSessionList();
         GameSession session = null;
         for(GameSession s : sessions){
@@ -107,12 +120,16 @@ public class Player implements Runnable {
         }
         if (session == null) throw new NoSuchSessionException();
         synchronized(session){
-            session.joinPlayer(this, Color.valueOf(color));
+            if(session.joinPlayer(this, Color.valueOf(color))) currentSession = session;
         }
+        return currentSession != null;
     }
 
-
-
-
-
+    private boolean leaveSession(){
+        if(currentSession.leavePlayer(this)){
+            currentSession = null;
+            return true;
+        }
+        else return false;
+    }
 }

@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.tp.exception.SessionExistsException;
+import com.tp.exception.UnsupportedSessionSizeException;
 
 public class Server {
 
@@ -45,14 +46,14 @@ public class Server {
 
     private ArrayList<GameSession> sessions = new ArrayList<>();
 
-    public void createSession(String sessionID, int playerCount) throws SessionExistsException {
+    public void createSession(String sessionID, int playerCount) throws SessionExistsException, UnsupportedSessionSizeException {
         for(GameSession s : sessions){
             if(s.getID().equals(sessionID)){
                 throw new SessionExistsException();
             }
         }
         if (!(playerCount == 2 || playerCount == 3 || playerCount == 4 || playerCount == 6)) return;
-        GameSession session = new GameSession(sessionID, playerCount);
+        GameSession session = new GameSession.GameSessionBuilder(sessionID, playerCount).build();
         sessions.add(session);
     }
 

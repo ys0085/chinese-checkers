@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception { // TODO: wez to zmien cale ja to skopiowalem z internetu
         // if (args.length != 1) {
         //     System.err.println("Pass the server IP as the sole command line argument");
         //     return;

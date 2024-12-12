@@ -29,11 +29,15 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.6.0</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
                     <configuration>
-                        <mainClass>com.tp.server.Main</mainClass>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.tp.Main</mainClass>
+                            </manifest>
+                        </archive>
                     </configuration>
                 </plugin>
             </plugins>

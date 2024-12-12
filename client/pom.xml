@@ -6,16 +6,15 @@
     <parent>
           <groupId>com.tp</groupId>
           <artifactId>chinese-checkers</artifactId>
-          <version>1.0-SNAPSHOT</version>
+          <version>1.0</version>
     </parent>
 
     <groupId>com.tp</groupId>
     <artifactId>client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
-
 </project>

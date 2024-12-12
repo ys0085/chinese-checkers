@@ -114,4 +114,14 @@ public class GameSession {
         return players.remove(getColor(player)) != null;
     }
 
+    public boolean makeMove(Player player, Move move){
+        boolean moved = board.move(move);
+        if(!moved) return false;
+        
+        for(Player p : players.values()){
+            if(!p.equals(player)) p.notifyMove(move);
+        }
+        return true;
+    }
+
 }

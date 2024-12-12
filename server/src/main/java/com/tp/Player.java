@@ -15,6 +15,7 @@ public class Player implements Runnable {
     public static Player MOCK_PLAYER = new Player(null);
 
     private String defaultName = "default_name";
+    private PrintWriter out;
 
     private Server server = Server.getInstance();
     private Socket socket;
@@ -39,7 +40,7 @@ public class Player implements Runnable {
     public void run() {
         try {
             var in = new Scanner(socket.getInputStream());
-            var out = new PrintWriter(socket.getOutputStream(), true);
+            out = new PrintWriter(socket.getOutputStream(), true);
 
             if(in.hasNextLine()) {
                 String line[] = in.nextLine().toUpperCase().split(" ");
@@ -55,7 +56,7 @@ public class Player implements Runnable {
             while (in.hasNextLine()) {
                 String line = in.nextLine();
                 if(line.toUpperCase().startsWith("DISCONNECT")) break;
-                CommandHandler.handle(line, this);
+                out.println(CommandHandler.handle(line, this));
             }
             in.close();
         } catch (Exception e) {
@@ -95,5 +96,9 @@ public class Player implements Runnable {
             return true;
         }
         else return false;
+    }
+
+    public void notifyMove(Move move){
+        out.println("MOVE " + move.t1 + " " + move.t2);
     }
 }

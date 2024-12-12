@@ -6,8 +6,7 @@ import com.tp.exception.PlayerAlreadyInSessionException;
 import com.tp.exception.SessionExistsException;
 import com.tp.exception.UnsupportedSessionSizeException;
 
-public class CommandHandler {
-
+public interface CommandHandler {
     public static String handle(String line, Player player){
         Server server = Server.getInstance();
         String tokens[] = line.split(" ");
@@ -45,8 +44,8 @@ public class CommandHandler {
             case "LEAVEROOM":
                 return player.leaveSession() ? "OK" : "ERR";  
             case "MOVE":
-                return player.getCurrentSession().getBoard()
-                    .move(new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))) 
+                return player.getCurrentSession()
+                    .makeMove(player, new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))) 
                     ? "OK" 
                     : "ERR";
             default:

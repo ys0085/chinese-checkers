@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import com.tp.exception.NoSuchSessionException;
 import com.tp.exception.PlayerAlreadyInSessionException;
-import com.tp.exception.SessionExistsException;
 import com.tp.exception.ColorOccupiedException;
 
 
@@ -54,48 +53,9 @@ public class Player implements Runnable {
             System.out.println("Connected: " + socket + " as \"" + name + "\"");
 
             while (in.hasNextLine()) {
-                String tokens[] = in.nextLine().split(" ");
-                String command = tokens[0].toUpperCase();
-                if(command.equals("DISCONNECT")) break;
-                switch (command) { // No need to check if tokens[i] exists, assume thats done by the client
-                    case "CREATEROOM": //Syntax: "CREATEROOM name playerCount" name = String no spaces, playerCount is in {2,3,4,6}
-                        try {
-                            synchronized(server){
-                                server.createSession(tokens[1], Integer.parseInt(tokens[2]));
-                            }
-                            out.println("OK");
-                        } catch (SessionExistsException e) {
-                            out.println("ERR");
-                        }
-                        break;
-                    case "JOINROOM": //Syntax: "JOINROOM name color" name = String no spaces, color = String from enum Color
-                        try{
-                            out.println(joinSession(tokens[1], tokens[2].toUpperCase()) ? "OK" : "ERR");
-                        } catch (NoSuchSessionException e) {
-                            out.println("ERR"); // TODO: mozesz pozmieniac te errory na rozne polecenia np ERR1 ERR2 zeby inaczej klient reagowal
-                        } catch (ColorOccupiedException e) {
-                            out.println("ERR");
-                        } catch (PlayerAlreadyInSessionException e) {
-                            out.println("ERR");
-                        }
-                        break;
-                    case "GETROOMS": //Syntax: "GETROOMS"
-                        synchronized(server){
-                            for(GameSession s : server.getSessionList()){
-                                out.println(s.getSessionInfo());
-                            }
-                            out.println("OK");
-                        }
-                        break;
-                    case "LEAVEROOM":
-                        out.println(leaveSession() ? "OK" : "ERR");  
-                        break;
-                    case "MOVE":
-                        out.println(currentSession.getBoard().move(new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))));
-                        break;
-                    default:
-                        break;
-                }
+                String line = in.nextLine();
+                if(line.toUpperCase().startsWith("DISCONNECT")) break;
+                CommandHandler.handle(line, this);
             }
             in.close();
         } catch (Exception e) {
@@ -110,7 +70,11 @@ public class Player implements Runnable {
         }
     }
 
-    private boolean joinSession(String sessionID, String color) 
+    public GameSession getCurrentSession(){
+        return currentSession;
+    }
+
+    public boolean joinSession(String sessionID, String color) 
     throws NoSuchSessionException, ColorOccupiedException, PlayerAlreadyInSessionException {
         if(currentSession != null) throw new PlayerAlreadyInSessionException();
         ArrayList<GameSession> sessions = server.getSessionList();
@@ -125,7 +89,7 @@ public class Player implements Runnable {
         return currentSession != null;
     }
 
-    private boolean leaveSession(){
+    public boolean leaveSession(){
         if(currentSession.leavePlayer(this)){
             currentSession = null;
             return true;

@@ -18,7 +18,6 @@ public class Main implements IHandle {
                     System.out.println(line);
                     System.out.println(IHandle.handle(line));
                 } 
-                
             }
         }
     }

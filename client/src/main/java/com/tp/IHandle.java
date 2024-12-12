@@ -5,7 +5,9 @@ public interface IHandle {
         String tokens[] = line.split(" ");
         String command = tokens[0].toUpperCase();
         switch (command) {
-            case "HELLO": //Syntax: "CREATEROOM name playerCount" name = String no spaces, playerCount is in {2,3,4,6}
+            case "HELLO":
+                return line;
+            case "MOVED":
                 return line;
             default:
                 return "Unexpected error occured";

@@ -6,7 +6,5 @@ public enum Color { //Colors numbered like in /colors.png
     ORANGE,
     GREEN,
     BLUE,
-    PURPLE,
-    EMPTY,
-    INVALID
+    PURPLE
 }

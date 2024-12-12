@@ -4,12 +4,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) throws Exception { // TODO: wez to zmien cale ja to skopiowalem z internetu
-        // if (args.length != 1) {
-        //     System.err.println("Pass the server IP as the sole command line argument");
-        //     return;
-        // }
+public class Main implements IHandle {
+    public static void main(String[] args)throws Exception  {
         try (var socket = new Socket("localhost", 54321)) {
             System.out.println("Enter lines of text then Ctrl+D or Ctrl+C to quit");
             var scanner = new Scanner(System.in);
@@ -20,9 +16,8 @@ public class Main {
                 while(in.hasNextLine()) {
                     String line = in.nextLine();
                     System.out.println(line);
-                    if (line.equals("OK") || line.equals("ERR")) break;
+                    System.out.println(IHandle.handle(line));
                 } 
-                
             }
         }
     }

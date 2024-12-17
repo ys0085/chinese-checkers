@@ -1,6 +1,6 @@
 package com.tp;
 
-public enum Color { //Colors numbered like in /colors.png
+public enum PlayerColor { //Colors numbered like in /colors.png
     RED,
     YELLOW,
     ORANGE,

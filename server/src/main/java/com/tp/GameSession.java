@@ -18,49 +18,49 @@ public class GameSession {
             this.playerCapacity = playerCapacity;
             switch(playerCapacity){
                 case 2:
-                    players.put(Color.RED, null);
-                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
-                    players.put(Color.YELLOW, Player.MOCK_PLAYER);
-                    players.put(Color.GREEN, null);
-                    players.put(Color.BLUE, Player.MOCK_PLAYER);
-                    players.put(Color.PURPLE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.RED, null);
+                    players.put(PlayerColor.ORANGE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.YELLOW, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.GREEN, null);
+                    players.put(PlayerColor.BLUE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.PURPLE, Player.MOCK_PLAYER);
                     break;
                 case 3:
-                    players.put(Color.RED, null);
-                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
-                    players.put(Color.YELLOW, null);
-                    players.put(Color.GREEN, Player.MOCK_PLAYER);
-                    players.put(Color.BLUE, null);
-                    players.put(Color.PURPLE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.RED, null);
+                    players.put(PlayerColor.ORANGE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.YELLOW, null);
+                    players.put(PlayerColor.GREEN, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.BLUE, null);
+                    players.put(PlayerColor.PURPLE, Player.MOCK_PLAYER);
                     break;
                 case 4:
-                    players.put(Color.RED, null);
-                    players.put(Color.ORANGE, null);
-                    players.put(Color.YELLOW, Player.MOCK_PLAYER);
-                    players.put(Color.GREEN, null);
-                    players.put(Color.BLUE, null);
-                    players.put(Color.PURPLE, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.RED, null);
+                    players.put(PlayerColor.ORANGE, null);
+                    players.put(PlayerColor.YELLOW, Player.MOCK_PLAYER);
+                    players.put(PlayerColor.GREEN, null);
+                    players.put(PlayerColor.BLUE, null);
+                    players.put(PlayerColor.PURPLE, Player.MOCK_PLAYER);
                     break;
                 case 6:
-                    players.put(Color.RED, null);
-                    players.put(Color.ORANGE, null);
-                    players.put(Color.YELLOW, null);
-                    players.put(Color.GREEN, null);
-                    players.put(Color.BLUE, null);
-                    players.put(Color.PURPLE, null);
+                    players.put(PlayerColor.RED, null);
+                    players.put(PlayerColor.ORANGE, null);
+                    players.put(PlayerColor.YELLOW, null);
+                    players.put(PlayerColor.GREEN, null);
+                    players.put(PlayerColor.BLUE, null);
+                    players.put(PlayerColor.PURPLE, null);
                     break;
             }
         }
 
-        private IBoard board;
-        private HashMap<Color,Player> players = new HashMap<>(6);
+        private SharedBoard board;
+        private HashMap<PlayerColor,Player> players = new HashMap<>(6);
 
-        public GameSessionBuilder setBoard(IBoard board){
+        public GameSessionBuilder setBoard(SharedBoard board){
             this.board = board;
             return this;
         }
 
-        public GameSessionBuilder setPlayers(HashMap<Color,Player> players){
+        public GameSessionBuilder setPlayers(HashMap<PlayerColor,Player> players){
             this.players = players;
             return this;
         }
@@ -77,19 +77,19 @@ public class GameSession {
 
     private int playerCapacity;
     private String ID;
-    private IBoard board;
-    private HashMap<Color,Player> players = new HashMap<>(6);
+    private SharedBoard board;
+    private HashMap<PlayerColor,Player> players = new HashMap<>(6);
 
     public String getID(){
         return ID;
     }
 
-    public IBoard getBoard(){
+    public SharedBoard getBoard(){
         return board;
     }
 
-    private Color getColor(Player player){
-        for(Color c : Color.values()){
+    private PlayerColor getColor(Player player){
+        for(PlayerColor c : PlayerColor.values()){
             if(players.get(c).equals(player)) return c;
         }
         return null;
@@ -97,13 +97,13 @@ public class GameSession {
 
     public String getSessionInfo(){
         String s = ID + " " + playerCapacity;
-        for(Color c : Color.values()){
+        for(PlayerColor c : PlayerColor.values()){
             s += " ";
             s += (players.get(c) == null ? "---" : players.get(c).getName() + "@" + players.get(c).getSocket());
         }
         return s;
     }
-    public boolean joinPlayer(Player player, Color color) throws ColorOccupiedException, PlayerAlreadyInSessionException {
+    public boolean joinPlayer(Player player, PlayerColor color) throws ColorOccupiedException, PlayerAlreadyInSessionException {
         if(players.get(color) != null) throw new ColorOccupiedException();
         if(players.containsValue(player)) throw new PlayerAlreadyInSessionException();
         players.put(color, player);

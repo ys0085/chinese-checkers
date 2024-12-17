@@ -1,6 +1,6 @@
 package com.tp;
 // enum na mozliwe stany miejsca na planszy
-public enum Spot { 
+public enum Tile { 
     EMPTY,
     RED,
     YELLOW,

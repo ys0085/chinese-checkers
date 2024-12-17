@@ -45,7 +45,8 @@ public interface CommandHandler {
                 return player.leaveSession() ? "OK" : "ERR";  
             case "MOVE":
                 return player.getCurrentSession()
-                    .makeMove(player, new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))) 
+                    .makeMove(player, new Move(new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])),
+                                                new Position(Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]))))
                     ? "OK" 
                     : "ERR";
             default:

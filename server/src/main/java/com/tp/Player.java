@@ -85,7 +85,7 @@ public class Player implements Runnable {
         }
         if (session == null) throw new NoSuchSessionException();
         synchronized(session){
-            if(session.joinPlayer(this, Color.valueOf(color))) currentSession = session;
+            if(session.joinPlayer(this, PlayerColor.valueOf(color))) currentSession = session;
         }
         return currentSession != null;
     }
@@ -99,6 +99,6 @@ public class Player implements Runnable {
     }
 
     public void notifyMove(Move move){
-        out.println("MOVE " + move.t1 + " " + move.t2);
+        out.println("MOVE " + move.from + " " + move.to);
     }
 }

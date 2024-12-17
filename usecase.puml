@@ -1,0 +1,18 @@
+@startuml
+
+actor Gracz
+actor System
+
+usecase "laczenie z serwerem" as CTS
+usecase "dolaczenie do gry" as CTG
+usecase "wprowadzenie ilości graczy" as INP
+usecase "wyslij ruch do innych klientow" as SMV
+
+
+Gracz --> CTS
+Gracz --> CTG
+Gracz --> SMV
+
+System --> INP
+
+@enduml

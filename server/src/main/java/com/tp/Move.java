@@ -10,4 +10,7 @@ public class Move {
         this.from = from;
         this.to = to;
     }
+    public String toString(){
+        return "MOVE " + from.x + " " + from.y + " " + to.x + " " + to.y;
+    }
 }

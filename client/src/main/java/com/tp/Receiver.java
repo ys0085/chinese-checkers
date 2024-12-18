@@ -22,9 +22,8 @@ public class Receiver implements Runnable {
                 break;
             case "MOVE":
                 if (parts.length == 5) {
-
                     board.move(new Move());
-                    System.out.println("Move applied");
+                    System.out.println("Move applied: " + String.join(" ", parts));
                 } else {
                     System.out.println("Invalid MOVE command format");
                 }

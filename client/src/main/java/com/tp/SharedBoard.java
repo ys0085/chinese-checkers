@@ -16,9 +16,10 @@ public class SharedBoard {
     public synchronized boolean move(Move m) {
         var from = m.from;
         var to = m.to;
-        if(board[to.x][to.y] != Tile.EMPTY) return false;
-        board[to.x][to.y] = board[from.x][from.y];
-        board[from.x][from.y] = Tile.EMPTY;
-        return true;
+        return false; 
+    //    if(board[to.x][to.y] != Tile.EMPTY) return false;
+      //  board[to.x][to.y] = board[from.x][from.y];
+    //    board[from.x][from.y] = Tile.EMPTY;
+      //  return true;
     }
 }

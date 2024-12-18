@@ -99,6 +99,6 @@ public class Player implements Runnable {
     }
 
     public void notifyMove(Move move){
-        out.println("MOVE " + move.from + " " + move.to);
+        if(out != null) out.println(move.toString());
     }
 }

@@ -52,7 +52,7 @@ public class GameSession {
             }
         }
 
-        private SharedBoard board;
+        private SharedBoard board = new SharedBoard();
         private HashMap<PlayerColor,Player> players = new HashMap<>(6);
 
         public GameSessionBuilder setBoard(SharedBoard board){
@@ -119,7 +119,7 @@ public class GameSession {
         if(!moved) return false;
         
         for(Player p : players.values()){
-            if(!p.equals(player)) p.notifyMove(move);
+            if(p != null) p.notifyMove(move);
         }
         return true;
     }

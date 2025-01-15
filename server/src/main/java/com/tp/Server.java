@@ -17,6 +17,7 @@ public class Server {
 
     private Server(){}
 
+    @SuppressWarnings("DoubleCheckedLocking")
     public static Server getInstance(){
         if (instance == null){
             synchronized(Server.class){

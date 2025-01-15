@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Main implements IHandle {
     public static void main(String[] args)throws Exception  {
+        App.main(args);
         try (var socket = new Socket("localhost", 54321)) {
             System.out.println("Enter lines of text then Ctrl+D or Ctrl+C to quit");
             var scanner = new Scanner(System.in);
@@ -20,5 +21,7 @@ public class Main implements IHandle {
                 } 
             }
         }
+
+
     }
 }

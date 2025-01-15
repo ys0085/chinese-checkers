@@ -16,8 +16,8 @@ public class Main {
         try {
             server.launch();
         } catch (IOException e) {
-            System.out.println("Unexpected error while launching: ");
-            e.printStackTrace();
+            System.out.println("Unexpected error while launching: \n" + e.getMessage());
+            
         }
     }
 }

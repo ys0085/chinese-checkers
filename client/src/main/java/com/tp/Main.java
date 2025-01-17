@@ -5,9 +5,18 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Main implements IHandle {
-    public static void main(String[] args)throws Exception  {
+    public static void main(String[] args) throws Exception {
+
         App.main(args);
-        try (var socket = new Socket("localhost", 54321)) {
+        
+        String hostname = "localhost";
+        int port = 54321;
+        if(args.length > 0){
+            hostname = args[0].split(":")[0];
+            port = Integer.parseInt(args[0].split(":")[1]);
+        }
+        
+        try (var socket = new Socket(hostname, port)) {
             System.out.println("Enter lines of text then Ctrl+D or Ctrl+C to quit");
             var scanner = new Scanner(System.in);
             var in = new Scanner(socket.getInputStream());
@@ -21,6 +30,8 @@ public class Main implements IHandle {
                 } 
             }
         }
+
+        
 
 
     }

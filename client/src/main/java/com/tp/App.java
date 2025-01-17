@@ -15,22 +15,22 @@ public class App extends Application {
         BorderPane root = new BorderPane();
 
         
-        Region leftPanel = new Region();
+        BoardPanel leftPanel = new BoardPanel();
         leftPanel.setStyle("-fx-background-color: lightblue;");
-        leftPanel.setMinWidth(450);
+        leftPanel.setMinWidth(900);
 
         
         VBox rightPanel = new VBox();
-        rightPanel.setMinWidth(150);
+        rightPanel.setMinWidth(300);
 
         
         Region topRightPanel = new Region();
         topRightPanel.setStyle("-fx-background-color: lightcoral;");
-        topRightPanel.setPrefHeight(200);
+        topRightPanel.setPrefHeight(400);
 
         Region bottomRightPanel = new Region();
         bottomRightPanel.setStyle("-fx-background-color: lightgreen;");
-        bottomRightPanel.setPrefHeight(200);
+        bottomRightPanel.setPrefHeight(400);
 
         
         rightPanel.getChildren().addAll(topRightPanel, bottomRightPanel);
@@ -40,7 +40,7 @@ public class App extends Application {
         root.setRight(rightPanel);
 
         
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setTitle("Split Panel Layout Example");
         primaryStage.setScene(scene);
         primaryStage.show();

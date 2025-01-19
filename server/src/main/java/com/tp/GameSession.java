@@ -52,10 +52,10 @@ public class GameSession {
             }
         }
 
-        private IBoard board;
+        private Board board;
         private HashMap<Color,Player> players = new HashMap<>(6);
 
-        public GameSessionBuilder setBoard(IBoard board){
+        public GameSessionBuilder setBoard(Board board){
             this.board = board;
             return this;
         }
@@ -77,14 +77,14 @@ public class GameSession {
 
     private int playerCapacity;
     private String ID;
-    private IBoard board;
+    private Board board;
     private HashMap<Color,Player> players = new HashMap<>(6);
 
     public String getID(){
         return ID;
     }
 
-    public IBoard getBoard(){
+    public Board getBoard(){
         return board;
     }
 
@@ -95,14 +95,6 @@ public class GameSession {
         return null;
     }
 
-    public String getSessionInfo(){
-        String s = ID + " " + playerCapacity;
-        for(Color c : Color.values()){
-            s += " ";
-            s += (players.get(c) == null ? "---" : players.get(c).getName() + "@" + players.get(c).getSocket());
-        }
-        return s;
-    }
     public boolean joinPlayer(Player player, Color color) throws ColorOccupiedException, PlayerAlreadyInSessionException {
         if(players.get(color) != null) throw new ColorOccupiedException();
         if(players.containsValue(player)) throw new PlayerAlreadyInSessionException();

@@ -12,7 +12,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         
-        BorderPane root = new BorderPane();
+        BorderPane root = new BorderPane(); 
+
+
 
         
         BoardPanel leftPanel = new BoardPanel();

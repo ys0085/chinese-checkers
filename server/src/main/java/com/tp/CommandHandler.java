@@ -37,15 +37,15 @@ public interface CommandHandler {
                 synchronized(server){
                     String output = "";
                     for(GameSession s : server.getSessionList()){
-                        output += s.getSessionInfo() + "\n";
+                        output += s.getID() + "|&|";
                     }
-                    return output + "OK";
+                    return output;
                 }
             case "LEAVEROOM":
                 return player.leaveSession() ? "OK" : "ERR";  
             case "MOVE":
                 return player.getCurrentSession()
-                    .makeMove(player, new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]))) 
+                    .makeMove(player, new Move(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]))) 
                     ? "OK" 
                     : "ERR";
             default:

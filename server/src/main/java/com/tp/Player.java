@@ -6,9 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.tp.exception.ColorOccupiedException;
 import com.tp.exception.NoSuchSessionException;
 import com.tp.exception.PlayerAlreadyInSessionException;
-import com.tp.exception.ColorOccupiedException;
 
 
 public class Player implements Runnable {
@@ -99,6 +99,6 @@ public class Player implements Runnable {
     }
 
     public void notifyMove(Move move){
-        out.println("MOVE " + move.t1 + " " + move.t2);
+        out.println("MOVE " + move.x1 + " " + move.y1 + " " + move.x2 + " " + move.y2);
     }
 }

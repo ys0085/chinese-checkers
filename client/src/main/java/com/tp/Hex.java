@@ -2,10 +2,10 @@ package com.tp;
 
 import javafx.scene.shape.Polygon;
 
-public class Tile extends Polygon {
+public class Hex extends Polygon {
     public int col, row;
-    public Spot spot;
-    Tile(int col, int row, double x, double y, double size){
+    public Tile tile;
+    Hex(int col, int row, double x, double y, double size){
         super();
         this.col = col;
         this.row = row;

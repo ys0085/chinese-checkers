@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 public class BoardPanel extends Region {
     final private int HEX_SIZE = 20;
     private Board board;
-    private ArrayList<Tile> tiles = new ArrayList<Tile>();
+    private ArrayList<Hex> tiles = new ArrayList<Hex>();
     BoardPanel() {
         super();
         int rows = 20; 
@@ -26,7 +26,7 @@ public class BoardPanel extends Region {
                 double x = col * xOffset + (row % 2 == 0 ? 0 : HEX_SIZE * Math.sqrt(3) / 2); 
                 double y = row * yOffset;
 
-                Tile hex = new Tile(col, row, x, y, HEX_SIZE);
+                Hex hex = new Hex(col, row, x, y, HEX_SIZE);
                 tiles.add(hex);
                 hex.setFill(Color.LIGHTGRAY);
                 hex.setStroke(Color.BLACK);
@@ -44,8 +44,8 @@ public class BoardPanel extends Region {
         }
     }
     public void update(){
-        for(Tile t : tiles){
-            t.spot = board.getSpot(t.row, t.col);
+        for(Hex t : tiles){
+            t.tile = board.getTile(t.row, t.col);
         }
     }
     public void setBoard(Board b){

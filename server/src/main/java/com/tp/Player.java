@@ -12,7 +12,7 @@ public class Player implements Runnable {
     private String defaultName = "default_name";
     private PrintWriter out;
 
-    private final Server server = Server.getInstance();
+    //private final Server server = Server.getInstance();
     private final Socket socket;
     private String name;
     

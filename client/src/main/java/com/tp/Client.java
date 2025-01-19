@@ -19,7 +19,7 @@ public class Client {
 
     }
 
-    private String sessionID;
+    //private String sessionID;
 
 
     private Socket socket;

@@ -11,6 +11,7 @@ public class Main {
         try (Socket socket = new Socket(serverAddress, port)) {
             System.out.println("Connected to server: " + serverAddress + ":" + port);
             
+            @SuppressWarnings("unused")
             Board board = new Board();
             
             Client client = new Client(socket);

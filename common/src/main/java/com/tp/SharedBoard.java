@@ -12,6 +12,13 @@ public class SharedBoard {
         }
     }
 
+    public initialiseBoard(int variant, int size) {
+        private Tile[][] board = new Tile[size][size];
+        for (int i = 0; i < size; i++) {
+            for 
+        }
+    }
+
     // Thread-safe method to update the board
     public synchronized boolean move(Move m) {
         var from = m.from;

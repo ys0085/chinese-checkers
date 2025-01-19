@@ -5,7 +5,7 @@ public class Board {
     public boolean move(Move move){
         return true;
     }; //Docelowo move(Tile t1, Tile t2)
-    
+
     public Tile getTile(int row, int col){
         return tiles[row][col];
     }

@@ -7,10 +7,9 @@ public interface CommandHandler {
         String command = tokens[0].toUpperCase();
         switch (command) {
             case "MOVE" -> {
-                return server.getSession().makeMove(player, new Move(
-                    Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]),
-                    Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4])
-                )) ? "OK" : "ERR";
+                return server.getSession().makeMove(player,
+                new Move(new Position(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])),
+                new Position(Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4])))) ? "OK" : "ERR";
             }
             default -> {
                 return "ERR";

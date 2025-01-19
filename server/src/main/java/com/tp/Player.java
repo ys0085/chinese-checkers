@@ -81,7 +81,7 @@ public class Player implements Runnable {
 
 
     public void notifyMove(Move move){
-        out.println("MOVE " + move.x1 + " " + move.y1 + " " + move.x2 + " " + move.y2);
+        out.println("MOVE " + move.from.x + " " + move.from.y + " " + move.to.x + " " + move.to.y);
     }
 
     public void notifyJoin(Player p, Color c){

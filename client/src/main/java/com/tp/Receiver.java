@@ -19,9 +19,8 @@ public class Receiver implements Runnable {
             case "MOVE" -> {
                 if (parts.length == 5) {
                     boolean moved = Client.getInstance().getBoard().move(
-                            new Move(
-                                    Integer.parseInt(parts[1]), Integer.parseInt(parts[2]),
-                                    Integer.parseInt(parts[3]), Integer.parseInt(parts[4])));
+                            new Move( new Position(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])),
+                                    new Position(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]))));
                     System.out.println(moved ? ("Move applied: " + String.join(" ", parts)) : "Couldnt apply move");
                 } else {
                     System.out.println("Invalid MOVE command format");

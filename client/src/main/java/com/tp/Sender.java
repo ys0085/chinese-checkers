@@ -27,31 +27,6 @@ public class Sender implements Runnable {
                     System.out.println("Invalid MOVE format. Usage: MOVE <fromX> <fromY> <toX> <toY>");
                 }
             }
-            case "CREATEROOM" -> {
-                if (parts.length == 3) {
-                    out.println(String.join(" ", parts));
-                    System.out.println("Sent CREATEROOM: Name=" + parts[1] + ", PlayerCount=" + parts[2]);
-                } else {
-                    System.out.println("Invalid CREATEROOM format. Usage: CREATEROOM <name> <playerCount>");
-                }
-            }
-            case "JOINROOM" -> {
-                if (parts.length == 3) {
-                    out.println(String.join(" ", parts));
-                    System.out.println("Sent JOINROOM: Name=" + parts[1] + ", Color=" + parts[2]);
-                } else {
-                    System.out.println("Invalid JOINROOM format. Usage: JOINROOM <name> <color>");
-                }
-            }
-            case "GETROOMS" -> {
-                out.println("GETROOMS");
-                System.out.println("Sent: GETROOMS");
-            }
-            case "LEAVEROOM" -> {
-                out.println("LEAVEROOM");
-                System.out.println("Sent: LEAVEROOM");
-            }
-            default -> System.out.println("Unknown command: " + command);
         }
     }
 

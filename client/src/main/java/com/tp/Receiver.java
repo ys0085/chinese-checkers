@@ -26,21 +26,8 @@ public class Receiver implements Runnable {
                     System.out.println("Invalid MOVE command format");
                 }
             }
-
-            case "GETROOMS" -> {
-                String[] rooms = new String[parts.length - 1];
-                for(int i = 1; i < parts.length; i++){
-                    rooms[i - 1] = parts[i];
-                }
-                Client.getInstance().setRooms(rooms);
-            }
-            case "OK" -> System.out.println("Server acknowledged: OK");
-            case "ERR" -> System.out.println("An error occured");
-
-            default -> System.out.println("Unknown command: " + command);
         }
     }
-    
     @Override
     public void run() {
         try (Scanner in = new Scanner(socket.getInputStream());

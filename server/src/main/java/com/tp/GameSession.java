@@ -52,7 +52,7 @@ public class GameSession {
             }
         }
 
-        private Board board;
+        private Board board = new Board();
         private HashMap<Color,Player> players = new HashMap<>(6);
 
         public GameSessionBuilder setBoard(Board board){
@@ -84,6 +84,10 @@ public class GameSession {
         return ID;
     }
 
+    public int getPlayerCapacity(){
+        return playerCapacity;
+    }
+
     public Board getBoard(){
         return board;
     }
@@ -111,7 +115,7 @@ public class GameSession {
         if(!moved) return false;
         
         for(Player p : players.values()){
-            if(!p.equals(player)) p.notifyMove(move);
+            if(!p.equals(player) && !p.equals(Player.MOCK_PLAYER)) p.notifyMove(move);
         }
         return true;
     }

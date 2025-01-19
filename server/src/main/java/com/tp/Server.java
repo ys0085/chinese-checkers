@@ -2,12 +2,8 @@ package com.tp;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import com.tp.exception.SessionExistsException;
-import com.tp.exception.UnsupportedSessionSizeException;
 
 public class Server {
 
@@ -45,21 +41,14 @@ public class Server {
         }
     }
 
-    private ArrayList<GameSession> sessions = new ArrayList<>();
-
-    public void createSession(String sessionID, int playerCount) throws SessionExistsException, UnsupportedSessionSizeException {
-        for(GameSession s : sessions){
-            if(s.getID().equals(sessionID)){
-                throw new SessionExistsException();
-            }
-        }
-        if (!(playerCount == 2 || playerCount == 3 || playerCount == 4 || playerCount == 6)) return;
-        GameSession session = new GameSession.GameSessionBuilder(sessionID, playerCount).build();
-        sessions.add(session);
+    private GameSession session;
+    public void createSession(String capacity, String mode){
+        this.session = new GameSession.GameSessionBuilder("Room", Integer.parseInt(capacity)).build();
     }
 
-    public ArrayList<GameSession> getSessionList(){
-        return sessions;
-    }
+    public GameSession getSession(){
+        return session;
+    } 
+    
 
 }

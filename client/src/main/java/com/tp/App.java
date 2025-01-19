@@ -13,9 +13,6 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         
         BorderPane root = new BorderPane(); 
-
-
-
         
         BoardPanel leftPanel = new BoardPanel();
         leftPanel.setStyle("-fx-background-color: lightblue;");

@@ -1,11 +1,8 @@
 package com.tp;
 
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class Client implements IHandle {
-    private Board board;
+public class Client {
 
     private static Client instance = null;
     @SuppressWarnings("DoubleCheckedLocking")
@@ -18,37 +15,36 @@ public class Client implements IHandle {
         return instance;
     }
 
+    public void setRooms(String[] rooms){
+
+    }
+
+    private String sessionID;
+
+
+    private Socket socket;
+    private Board board = new Board();
+
+
     public void setBoard(Board b){ this.board = b; }
     public Board getBoard(){ return board; }
 
-    public static void main(String[] args) throws Exception {
+    private Client(){}
+    public Client(Socket s) {
+        this.socket = s;
+        instance = this;
+    }
 
-        App.main(args);
-        
-        String hostname = "localhost";
-        int port = 54321;
-        if(args.length > 0){
-            hostname = args[0].split(":")[0];
-            port = Integer.parseInt(args[0].split(":")[1]);
-        }
-        
-        try (var socket = new Socket(hostname, port)) {
-            System.out.println("Enter lines of text then Ctrl+D or Ctrl+C to quit");
-            var scanner = new Scanner(System.in);
-            var in = new Scanner(socket.getInputStream());
-            var out = new PrintWriter(socket.getOutputStream(), true);
-            while (scanner.hasNextLine()) {
-                out.println(scanner.nextLine());
-                while(in.hasNextLine()) {
-                    String line = in.nextLine();
-                    System.out.println(line);
-                    System.out.println(IHandle.handle(line));
-                } 
-            }
-        }
+    public void start() throws InterruptedException {
+        Thread senderThread = new Thread(new Sender(socket));
+        Thread receiverThread = new Thread(new Receiver(socket));
 
-        
+        senderThread.start();
+        receiverThread.start();
 
-
+        senderThread.join();
+        receiverThread.join();
     }
 }
+    
+

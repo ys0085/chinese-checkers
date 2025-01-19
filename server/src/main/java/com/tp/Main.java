@@ -6,12 +6,13 @@ public class Main {
     public static void main(String[] args) {
         int port;
         try {
-            port = Integer.parseInt(args[1]);
+            port = Integer.parseInt(args[0]);
         } catch (Exception e) {
             port = 54321;
         }
         Server server = Server.getInstance();
         server.setPort(port);
+        server.createSession(args[1], args[2]);
         System.out.println("Launching server on port " + port);
         try {
             server.launch();

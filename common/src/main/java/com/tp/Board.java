@@ -49,10 +49,10 @@ public class Board {
 
         // GREEN Triangle (Left-Bottom)
         int[][] greenCoordinates = {
-            {9, 4},
-            {10, 4}, {10, 5},
-            {11, 4}, {11, 5}, {11, 6},
-            {12, 4}, {12, 5}, {12, 6}, {12, 7}
+            {9, 1},
+            {10, 1}, {10, 2},
+            {11, 0}, {11, 1}, {11, 2},
+            {12, 0}, {12, 1}, {12, 2}, {12, 3}
         };
         fillArea(tiles, greenCoordinates, Tile.GREEN);
 

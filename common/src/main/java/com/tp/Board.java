@@ -67,10 +67,10 @@ public class Board {
 
         // BLUE Triangle (Right-Top)
         int[][] blueCoordinates = {
-            {4, 9},
-            {4, 10}, {5, 10},
+            {4, 9}, {5, 9},
+            {4, 10}, {5, 10}, {6, 10}, {7, 10},
             {4, 11}, {5, 11}, {6, 11},
-            {4, 12}, {5, 12}, {6, 12}, {7, 12}
+            {4, 12}
         };
         fillArea(tiles, blueCoordinates, Tile.BLUE);
 

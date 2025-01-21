@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class UIApp extends Application {
 
     private static Consumer<Move> moveCallback;
+    public static BoardPanel boardPanel;
 
     public static void setMoveCallback(Consumer<Move> moveCallback) {
         UIApp.moveCallback = moveCallback;
@@ -20,6 +21,7 @@ public class UIApp extends Application {
         BorderPane root = new BorderPane(); 
         
         BoardPanel mainPanel = new BoardPanel(UIApp.moveCallback);
+        UIApp.boardPanel = mainPanel;
         mainPanel.setStyle("-fx-background-color: white;");
         mainPanel.setMinWidth(700);
         

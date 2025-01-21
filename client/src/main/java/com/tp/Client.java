@@ -25,11 +25,6 @@ public class Client {
 
     public void setSocket(Socket s){ socket = s; }
 
-    private Board board = new Board();
-
-    public void setBoard(Board b){ this.board = b; }
-    public Board getBoard(){ return board; }
-
     private Color color = null;
 
     public void setColor(String color) {

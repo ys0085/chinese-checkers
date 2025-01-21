@@ -81,6 +81,19 @@ public class BoardPanel extends Region {
     public void setBoard(Board b){ this.board = b; }
     public Board getBoard(){ return board; }
 
+    public boolean move(Move move){
+        Position from = move.from;
+        Position to = move.to;
+        boolean success = board.move(new Move(from, to));
+        if (success) {
+            update();
+        }
+        else {
+            System.out.println("Invalid move received - possible desync");
+        }
+        return success;
+    }
+
     private void parseMove(Hex h1, Hex h2){
         Position from = new Position(h1.row, h1.col);
         Position to = new Position(h2.row, h2.col);
@@ -89,7 +102,6 @@ public class BoardPanel extends Region {
         if (success) {
             moveCallback.accept(new Move(from, to));
         }
-
         update();
     }
 

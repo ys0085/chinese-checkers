@@ -17,7 +17,7 @@ public class Receiver implements Runnable {
         switch (command) {
             case "MOVE" -> {
                 if (parts.length == 5) {
-                    boolean moved = Client.getInstance().getBoard().move(
+                    boolean moved = UIApp.boardPanel.move(
                             new Move( new Position(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])),
                                     new Position(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]))));
                     System.out.println(moved ? ("Move applied: " + String.join(" ", parts)) : "Couldnt apply move");

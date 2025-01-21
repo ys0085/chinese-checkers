@@ -31,7 +31,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        App.main(args);
     }
 }

@@ -46,7 +46,7 @@ public class BoardPanel extends Region {
                 //Sending moves through UI
                 hex.setOnMouseClicked(e -> {
                     if(!hex.isVisible()) return;
-                    //if(!(hex.tile.toString() == Client.getInstance().getColor().toString())) return;
+                    if((!(hex.tile.toString() == Client.getInstance().getColor().toString())) && (selectedHex == null )) return;
                     if(hex.isSelected()){
                         hex.toggleSelect();
                         selectedHex = null;

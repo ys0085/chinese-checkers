@@ -17,19 +17,16 @@ public class Main {
             Thread uiThread = new Thread(new UIThread(args));
             uiThread.start();
 
-<<<<<<< Updated upstream
             Client client = Client.getInstance();
             client.setSocket(socket);
             client.setColor(args[0]);
-=======
-            Client client = new Client(socket);
-            client.setColor(args[0].toUpperCase());
->>>>>>> Stashed changes
 
             client.start();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        App.main(args);
     }
 }

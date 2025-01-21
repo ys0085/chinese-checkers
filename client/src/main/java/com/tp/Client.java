@@ -30,8 +30,14 @@ public class Client {
 
     private Color color = null;
 
-    public void setColor(String color) { this.color = Color.valueOf(color); }
-    public Color getColor(){ return color; }
+    public void setColor(String color) {
+        System.out.println(color.toString());
+        this.color = Color.valueOf(color);
+
+    }
+    public Color getColor(){
+        System.out.println(color.toString());
+        return color; }
     
 
     public void start() throws InterruptedException {

@@ -56,7 +56,7 @@ public class Board {
         int[][] evenRowJumpOverDirections = {{-1, -1}, {1, -1}, {0, -1}, {0, 1}, {-1, 0}, {1, 0}};
         int[][] evenRowJumpToDirections   = {{-2, -1}, {2, -1}, {0, -2}, {0, 2}, {-2, 1}, {2, 1}};
         int[][] oddRowJumpOverDirections  = {{-1,  0}, {1,  0}, {0, -1}, {0, 1}, {-1, 1}, {1, 1}};
-        int[][] oddRowJumpToDirections    = {{-2, 0}, {2, 0}, {0, -2}, {0, 2}, {-2, 2}, {2, 2}};
+        int[][] oddRowJumpToDirections    = {{-2, 0}, {2, -1}, {0, -2}, {0, 2}, {-2, 1}, {2, 1}};
 
         System.out.println("---------- exploring for " + startPosition.toString());
         exploreMoves(startPosition.x, startPosition.y, validPositions, visited,

@@ -5,11 +5,8 @@ import java.net.Socket;
 public class Client {
 
     private Client(){}
-    public Client(Socket s) {
-        this.socket = s;
-        instance = this;
-    }
 
+    
     private static Client instance = null;
     @SuppressWarnings("DoubleCheckedLocking")
     public static Client getInstance(){
@@ -24,6 +21,7 @@ public class Client {
 
     private Socket socket;
 
+    public void setSocket(Socket s){ socket = s; }
 
     private Board board = new Board();
 

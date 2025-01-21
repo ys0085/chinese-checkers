@@ -17,7 +17,8 @@ public class Main {
             Thread uiThread = new Thread(new UIThread(args));
             uiThread.start();
 
-            Client client = new Client(socket);
+            Client client = Client.getInstance();
+            client.setSocket(socket);
             client.setColor(args[0]);
 
             client.start();

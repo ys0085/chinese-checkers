@@ -15,7 +15,6 @@ public class Receiver implements Runnable {
     private void handle(String command, String[] parts) {
 
         switch (command) {
-            case "HELLO" -> System.out.println("Server acknowledged " + parts[1] + " as " + parts[2]);
             case "MOVE" -> {
                 if (parts.length == 5) {
                     boolean moved = Client.getInstance().getBoard().move(
@@ -29,14 +28,17 @@ public class Receiver implements Runnable {
         }
     }
     @Override
-    public void run() {
+    public void run(){
         try (Scanner in = new Scanner(socket.getInputStream());
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             if (in.hasNextLine()) {
                 String[] line = in.nextLine().toUpperCase().split(" ");
-                handle(line[0], line);
+                if(!line[0].equals("HELLO")) {
+                    throw new WrongColorException();
+                }
             }
+            
 
             while (in.hasNextLine()) {
                 String message = in.nextLine();
@@ -46,6 +48,8 @@ public class Receiver implements Runnable {
 
         } catch (IOException e) {
             System.out.println("Receiver thread terminated.");
+        } catch (WrongColorException e) {
+            System.out.println("Wrong color. Reciever thread terminated.");
         } finally {
             try {
                 socket.close();

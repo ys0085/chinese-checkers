@@ -19,32 +19,32 @@ public class GameSession {
             switch(playerCapacity){
                 case 2 -> {
                     players.put(Color.RED, null);
-                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
                     players.put(Color.YELLOW, Player.MOCK_PLAYER);
+                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
                     players.put(Color.GREEN, null);
                     players.put(Color.BLUE, Player.MOCK_PLAYER);
                     players.put(Color.PURPLE, Player.MOCK_PLAYER);
                 }
                 case 3 -> {
                     players.put(Color.RED, null);
-                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
-                    players.put(Color.YELLOW, null);
+                    players.put(Color.YELLOW, Player.MOCK_PLAYER);
+                    players.put(Color.ORANGE, null);
                     players.put(Color.GREEN, Player.MOCK_PLAYER);
                     players.put(Color.BLUE, null);
                     players.put(Color.PURPLE, Player.MOCK_PLAYER);
                 }
                 case 4 -> {
                     players.put(Color.RED, null);
-                    players.put(Color.ORANGE, null);
-                    players.put(Color.YELLOW, Player.MOCK_PLAYER);
+                    players.put(Color.YELLOW, null);
+                    players.put(Color.ORANGE, Player.MOCK_PLAYER);
                     players.put(Color.GREEN, null);
                     players.put(Color.BLUE, null);
                     players.put(Color.PURPLE, Player.MOCK_PLAYER);
                 }
                 case 6 -> {
                     players.put(Color.RED, null);
-                    players.put(Color.ORANGE, null);
                     players.put(Color.YELLOW, null);
+                    players.put(Color.ORANGE, null);
                     players.put(Color.GREEN, null);
                     players.put(Color.BLUE, null);
                     players.put(Color.PURPLE, null);

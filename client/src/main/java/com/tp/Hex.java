@@ -16,4 +16,5 @@ public class Hex extends Polygon {
             this.getPoints().addAll(x + xOffset, y + yOffset);
         }
     }
+    
 }

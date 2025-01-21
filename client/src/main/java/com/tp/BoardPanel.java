@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 public class BoardPanel extends Region {
     final private int HEX_SIZE = 20;
     private Board board;
-    private ArrayList<Hex> tiles = new ArrayList<Hex>();
+    private ArrayList<Hex> tiles = new ArrayList<>();
     BoardPanel() {
         super();
         int rows = 20; 
@@ -31,9 +31,6 @@ public class BoardPanel extends Region {
                 hex.setFill(Color.LIGHTGRAY);
                 hex.setStroke(Color.BLACK);
                 
-
-                // Add interaction (optional)
-                hex.setOnMouseClicked(e -> hex.setFill(Color.GRAY));
                 Label coordinates = new Label(row + "\n" + col);
                 coordinates.setLayoutX(x - HEX_SIZE / 2);
                 coordinates.setLayoutY(y - HEX_SIZE / 1.5);

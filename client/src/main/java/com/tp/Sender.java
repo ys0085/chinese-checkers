@@ -15,10 +15,6 @@ public class Sender implements Runnable {
 
     private void handle(String command, String[] parts, PrintWriter out) {
         switch (command) {
-            case "HELLO" -> {
-                out.println("HELLO " + parts[1] + " " + parts[2]);
-                System.out.println("Sent: HELLO " + parts[1] + " " + parts[2]);
-            }
             case "MOVE" -> {
                 if (parts.length == 5) {
                     out.println(String.join(" ", parts));
@@ -34,10 +30,11 @@ public class Sender implements Runnable {
     @Override
     public void run() {
         try (Scanner scanner = new Scanner(System.in);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+            
+            out.println("HELLO " + socket.getLocalPort() + " " + Client.getInstance().getColor().toString());
             System.out.println("Ready to send moves. Type DISCONNECT to exit.");
-
+            
             while (true) {
                 System.out.print("Enter command: ");
                 String input = scanner.nextLine();

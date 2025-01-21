@@ -20,7 +20,7 @@ public class BoardPanel extends Region {
 
     final private int rows = 20;    
     final private int cols = 20; 
-    
+
     BoardPanel() {
         super();
         
@@ -49,6 +49,7 @@ public class BoardPanel extends Region {
 
                 //Sending moves through UI
                 hex.setOnMouseClicked(e -> {
+                    if(!hex.isVisible()) return;
                     if(hex.isSelected()){
                         hex.toggleSelect();
                         selectedHex = null;

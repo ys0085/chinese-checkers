@@ -76,10 +76,10 @@ public class Board {
 
         // PURPLE Triangle (Right-Bottom)
         int[][] purpleCoordinates = {
-            {9, 13},
-            {10, 13}, {10, 14},
-            {11, 13}, {11, 14}, {11, 15},
-            {12, 13}, {12, 14}, {12, 15}, {12, 16}
+            {9, 10},
+            {10, 10}, {10, 11},
+            {11, 9}, {11, 10}, {11, 11},
+            {12, 9}, {12, 10}, {12, 11}, {12, 12}
         };
         fillArea(tiles, purpleCoordinates, Tile.PURPLE);
 

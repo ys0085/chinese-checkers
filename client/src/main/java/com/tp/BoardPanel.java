@@ -23,11 +23,7 @@ public class BoardPanel extends Region {
 
     BoardPanel() {
         super();
-        
-        
         board = new Board();
-
-               
 
         for (int col = 0; col < cols; col++) {
             for (int row = 0; row < rows; row++) {
@@ -81,7 +77,11 @@ public class BoardPanel extends Region {
     public Board getBoard(){ return board; }
 
     private void parseMove(Hex h1, Hex h2){
-        //TODO: implement move parsing
+        Position from = new Position(h1.row, h1.col);
+        Position to = new Position(h2.row, h2.col);
+        boolean star = board.move(new Move(from , to));
+        System.out.println("move: " + from.toString()+ " " + to.toString() + star);
+        update();
     }
 
 }

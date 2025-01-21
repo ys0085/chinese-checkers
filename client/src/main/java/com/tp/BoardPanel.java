@@ -1,6 +1,7 @@
 package com.tp;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
@@ -21,8 +22,11 @@ public class BoardPanel extends Region {
     final private int rows = 20;    
     final private int cols = 20; 
 
-    BoardPanel() {
+    private Consumer<Move> moveCallback;
+
+    BoardPanel(Consumer<Move> moveCallback) {
         super();
+        this.moveCallback = moveCallback;
         board = new Board();
 
         for (int col = 0; col < cols; col++) {
@@ -80,8 +84,12 @@ public class BoardPanel extends Region {
     private void parseMove(Hex h1, Hex h2){
         Position from = new Position(h1.row, h1.col);
         Position to = new Position(h2.row, h2.col);
-        boolean star = board.move(new Move(from , to));
-        System.out.println("move: " + from.toString()+ " " + to.toString() + star);
+        boolean success = board.move(new Move(from , to));
+        // System.out.println("move: " + from.toString()+ " " + to.toString() + star);
+        if (success) {
+            moveCallback.accept(new Move(from, to));
+        }
+
         update();
     }
 

@@ -1,6 +1,8 @@
 package com.tp;
 
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client {
 
@@ -41,12 +43,17 @@ public class Client {
     
 
     public void start() throws InterruptedException {
-        Thread senderThread = new Thread(new Sender(socket));
-        Thread receiverThread = new Thread(new Receiver(socket));
+        BlockingQueue<Move> uiActionQueue = new LinkedBlockingQueue<>();
 
+        Thread senderThread = new Thread(new Sender(socket, uiActionQueue));
+        Thread receiverThread = new Thread(new Receiver(socket));
+        Thread uiThread = new Thread(new UIThread(uiActionQueue));
+
+        uiThread.start();
         senderThread.start();
         receiverThread.start();
 
+        uiThread.join();
         senderThread.join();
         receiverThread.join();
 

@@ -1,15 +1,28 @@
 package com.tp;
 
-public class UIThread implements Runnable {
+import java.util.concurrent.BlockingQueue;
 
-    private String[] args;
+public class UIThread implements Runnable  {
 
-    UIThread(String[] args) {
-        this.args = args;
+    private BlockingQueue<Move> uiActionQueue;
+
+    UIThread(BlockingQueue<Move> uiActionQueue) {
+        this.uiActionQueue = uiActionQueue;
+        UIApp.setMoveCallback(this::makeMove);
     }
+
     @Override
     public void run() {
-        App.main(args);
+        UIApp.main();
     }
+
+    public void makeMove(Move move) {
+        try {
+            uiActionQueue.put(move);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
 }

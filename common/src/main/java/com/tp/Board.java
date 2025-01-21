@@ -31,9 +31,9 @@ public class Board {
     private static void fillBoard(Tile[][] tiles) {
         // RED Triangle (Top)
         int[][] redCoordinates = {
-            {0, 4},
-            {1, 4}, {1, 5},
-            {2, 4}, {2, 5}, {2, 6},
+            {0, 6},
+            {1, 5}, {1, 6},
+            {2, 5}, {2, 6}, {2, 7},
             {3, 4}, {3, 5}, {3, 6}, {3, 7}
         };
         fillArea(tiles, redCoordinates, Tile.RED);

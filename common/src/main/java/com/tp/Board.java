@@ -58,10 +58,10 @@ public class Board {
 
         // ORANGE Triangle (Bottom)
         int[][] orangeCoordinates = {
-            {13, 9},
-            {13, 10}, {14, 10},
-            {13, 11}, {14, 11}, {15, 11},
-            {13, 12}, {14, 12}, {15, 12}, {16, 12}
+            {13, 4},
+            {13, 5}, {14, 5}, {15, 5},
+            {13, 6}, {14, 6}, {15, 6}, {16, 6},
+            {13, 7}, {14, 7}
         };
         fillArea(tiles, orangeCoordinates, Tile.ORANGE);
 

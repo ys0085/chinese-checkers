@@ -14,9 +14,14 @@ public class Main {
             @SuppressWarnings("unused")
             Board board = new Board();
             
+            Thread uiThread = new Thread(new UIThread(args));
+            uiThread.start();
+
             Client client = new Client(socket);
             client.setColor(args[0]);
+
             client.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

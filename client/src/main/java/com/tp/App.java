@@ -3,8 +3,6 @@ package com.tp;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -14,33 +12,17 @@ public class App extends Application {
         
         BorderPane root = new BorderPane(); 
         
-        BoardPanel leftPanel = new BoardPanel();
-        leftPanel.setStyle("-fx-background-color: lightblue;");
-        leftPanel.setMinWidth(900);
+        BoardPanel mainPanel = new BoardPanel();
+        mainPanel.setStyle("-fx-background-color: white;");
+        mainPanel.setMinWidth(700);
+        
+        root.setLeft(mainPanel);
+
+        mainPanel.update();
 
         
-        VBox rightPanel = new VBox();
-        rightPanel.setMinWidth(300);
-
-        
-        Region topRightPanel = new Region();
-        topRightPanel.setStyle("-fx-background-color: lightcoral;");
-        topRightPanel.setPrefHeight(400);
-
-        Region bottomRightPanel = new Region();
-        bottomRightPanel.setStyle("-fx-background-color: lightgreen;");
-        bottomRightPanel.setPrefHeight(400);
-
-        
-        rightPanel.getChildren().addAll(topRightPanel, bottomRightPanel);
-
-        
-        root.setLeft(leftPanel);
-        root.setRight(rightPanel);
-
-        
-        Scene scene = new Scene(root, 1200, 800);
-        primaryStage.setTitle("Split Panel Layout Example");
+        Scene scene = new Scene(root, 700, 700);
+        primaryStage.setTitle("Game");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

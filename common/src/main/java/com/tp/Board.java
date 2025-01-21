@@ -1,16 +1,21 @@
 package com.tp;
 
 public class Board { 
-    private Tile[][] tiles = new Tile[16][16];
+    private static Tile[][] tiles = new Tile[20][20];
     public boolean move(Move move){
         return true;
     }; //Docelowo move(Tile t1, Tile t2)
 
+    //Docelowo move(Tile t1, Tile t2)
+    public Board() {
+        initBoard();
+    }
+    
     public Tile getTile(int row, int col){
         return tiles[row][col];
     }
 
-    public static void initBoard(Tile[][] tiles) {
+    public static void initBoard() {
         setAllTilesToInvalid(tiles);      // Step 1: Set all tiles to INVALID
         fillBoard(tiles);        // Step 2: Hardcode all tiles
     }

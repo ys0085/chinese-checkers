@@ -19,7 +19,6 @@ public class Main {
 
             Client client = Client.getInstance();
             client.setSocket(socket);
-            System.out.println(args[0]);
             client.setColor(args[0]);
 
             client.start();

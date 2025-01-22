@@ -80,14 +80,25 @@ public class GameSession {
     private Board board;
     private HashMap<Color,Player> players = new HashMap<>(6);
 
+    
+    /** Generic getter
+     * @return session id
+     */
     public String getID(){
         return ID;
     }
 
+    
+    /** generic getter
+     * @return session player capacity
+     */
     public int getPlayerCapacity(){
         return playerCapacity;
     }
 
+    /** generic getter
+     * @return board 
+     */
     public Board getBoard(){
         return board;
     }

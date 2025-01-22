@@ -34,6 +34,10 @@ public class Hex extends Polygon {
         
     }
 
+    
+    /** Sets tile color of given hex
+     * @param t
+     */
     public void setTile(Tile t) {
         tile = t;
         if(t == Tile.INVALID) setVisible(false);

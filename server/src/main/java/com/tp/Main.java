@@ -3,6 +3,10 @@ package com.tp;
 import java.io.IOException;
 
 public class Main {
+    
+    /** Entry point for Server program
+     * @param args
+     */
     public static void main(String[] args) {
         int port;
         try {

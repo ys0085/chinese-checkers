@@ -7,7 +7,12 @@ import java.util.concurrent.BlockingQueue;
 public class Sender implements Runnable {
     private final Socket socket;
     private BlockingQueue<Move> uiActionQueue;
-
+    
+    /**
+     * Main constructor
+     * @param s
+     * @param uiActionQueue
+     */
     public Sender(Socket s, BlockingQueue<Move> uiActionQueue) {
         this.socket = s;
         this.uiActionQueue = uiActionQueue;

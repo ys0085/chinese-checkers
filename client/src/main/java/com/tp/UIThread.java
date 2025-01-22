@@ -16,6 +16,10 @@ public class UIThread implements Runnable  {
         UIApp.main();
     }
 
+    
+    /** 
+     * @param move
+     */
     public void makeMove(Move move) {
         try {
             uiActionQueue.put(move);

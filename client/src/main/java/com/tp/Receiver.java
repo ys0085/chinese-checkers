@@ -12,6 +12,11 @@ public class Receiver implements Runnable {
         this.socket = s;
     }
 
+    
+    /** Method handling server responses
+     * @param command
+     * @param parts
+     */
     private void handle(String command, String[] parts) {
 
         switch (command) {

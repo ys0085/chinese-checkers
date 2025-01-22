@@ -6,6 +6,11 @@ import java.util.List;
 public class Board { 
     private static Tile[][] tiles = new Tile[20][20];
 
+    
+    /** Move-making logic
+     * @param move
+     * @return boolean
+     */
     public boolean move(Move move) {
         Position from = move.from;
         Position to = move.to;
@@ -44,6 +49,11 @@ public class Board {
         return true; // Move was successful
     }
 
+    
+    /** Getter for valid positions
+     * @param startPosition
+     * @return List<Position>
+     */
     public List<Position> getValidPositionsList(Position startPosition) {
         List<Position> validPositions = new ArrayList<>();
         boolean[][] visited = new boolean[tiles.length][tiles[0].length];
@@ -165,10 +175,19 @@ public class Board {
         initBoard();
     }
     
+    /**
+     * Getter for specific tile
+     * @param row
+     * @param col
+     * @return tile
+     */
     public Tile getTile(int row, int col){
         return tiles[row][col];
     }
 
+    /**
+     * Board initialization
+     */
     public static void initBoard() {
         setAllTilesToInvalid(tiles);      // Step 1: Set all tiles to INVALID
         fillBoard(tiles);        // Step 2: Hardcode all tiles

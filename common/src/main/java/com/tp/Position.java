@@ -8,8 +8,12 @@ public class Position {
         this.x = x;
         this.y = y;
     }    
+    
+    /** Returns string of full position
+     * @return String
+     */
     @Override
-        public String toString() {
-            return "(" + x + ", " + y + ")";
-        }
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

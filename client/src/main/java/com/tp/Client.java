@@ -10,6 +10,10 @@ public class Client {
 
     
     private static Client instance = null;
+    
+    /** Singleton design pattern
+     * @return Client
+     */
     @SuppressWarnings("DoubleCheckedLocking")
     public static Client getInstance(){
         if (instance == null){
@@ -27,16 +31,27 @@ public class Client {
 
     private Color color = null;
 
+    
+    /** generic setter
+     * @param color
+     */
     public void setColor(String color) {
         System.out.println(color);
         this.color = Color.valueOf(color);
 
     }
+    /** generic getter
+     * @return color
+     */
     public Color getColor(){
         System.out.println(color.toString());
-        return color; }
+        return color; 
+    }
     
-
+    /**
+     * Client start
+     * @throws InterruptedException
+     */
     public void start() throws InterruptedException {
         BlockingQueue<Move> uiActionQueue = new LinkedBlockingQueue<>();
 

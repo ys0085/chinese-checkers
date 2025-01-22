@@ -1,6 +1,7 @@
 package com.tp;
 
 import java.util.function.Consumer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -11,10 +12,18 @@ public class UIApp extends Application {
     private static Consumer<Move> moveCallback;
     public static BoardPanel boardPanel;
 
+    
+    /** Generic setter
+     * @param moveCallback
+     */
     public static void setMoveCallback(Consumer<Move> moveCallback) {
         UIApp.moveCallback = moveCallback;
     }
 
+    
+    /** JavaFX Application start method
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         

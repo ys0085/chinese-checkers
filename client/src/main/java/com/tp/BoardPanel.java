@@ -71,6 +71,10 @@ public class BoardPanel extends Region {
             }
         }
     }
+
+    /**
+     * BoardPanel update
+     */
     public void update(){
         for(Hex h : hexes){
             h.setTile(board.getTile(h.row, h.col));
@@ -81,6 +85,11 @@ public class BoardPanel extends Region {
     public void setBoard(Board b){ this.board = b; }
     public Board getBoard(){ return board; }
 
+    
+    /** Update board with a new move
+     * @param move
+     * @return ?success
+     */
     public boolean move(Move move){
         Position from = move.from;
         Position to = move.to;
@@ -94,6 +103,7 @@ public class BoardPanel extends Region {
         return success;
     }
 
+    
     private void parseMove(Hex h1, Hex h2){
         Position from = new Position(h1.row, h1.col);
         Position to = new Position(h2.row, h2.col);

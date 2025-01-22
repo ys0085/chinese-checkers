@@ -3,6 +3,11 @@ package com.tp;
 import java.net.Socket;
 
 public class Main {
+    
+    /** Main class. Entry point of the client program.
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         
         String serverAddress = "localhost";

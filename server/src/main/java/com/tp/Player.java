@@ -22,10 +22,18 @@ public class Player implements Runnable {
         this.name = defaultName;
     }
 
+    
+    /** Generic getter for player name (unused)
+     * @return name
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     * generic getter
+     * @return Socket
+     */
     public Socket getSocket(){
         return socket;
     }

@@ -13,6 +13,10 @@ public class Server {
 
     private Server(){}
 
+    
+    /** Singleton design pattern
+     * @return Server
+     */
     @SuppressWarnings("DoubleCheckedLocking")
     public static Server getInstance(){
         if (instance == null){
@@ -26,6 +30,10 @@ public class Server {
     private int port;
     private boolean running;
 
+    
+    /** generic setter
+     * @param port
+     */
     public void setPort(int port){
         if(!running) this.port = port;
     }

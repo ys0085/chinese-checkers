@@ -201,41 +201,42 @@ public class Board {
         };
         fillArea(tiles, yellowCoordinates, Tile.YELLOW);
 
-        // GREEN Triangle (Left-Bottom)
-        int[][] greenCoordinates = {
+        // ORANGE Triangle (Bottom)
+        int[][] orangeCoordinates = {
             {9, 1},
             {10, 1}, {10, 2},
             {11, 0}, {11, 1}, {11, 2},
             {12, 0}, {12, 1}, {12, 2}, {12, 3}
         };
-        fillArea(tiles, greenCoordinates, Tile.GREEN);
+        fillArea(tiles, orangeCoordinates, Tile.ORANGE);
 
-        // ORANGE Triangle (Bottom)
-        int[][] orangeCoordinates = {
+        // GREEN Triangle (Left-Bottom)
+        int[][] greenCoordinates = {
             {13, 4},
             {13, 5}, {14, 5}, {15, 5},
             {13, 6}, {14, 6}, {15, 6}, {16, 6},
             {13, 7}, {14, 7}
         };
-        fillArea(tiles, orangeCoordinates, Tile.ORANGE);
+        fillArea(tiles, greenCoordinates, Tile.GREEN);
 
         // BLUE Triangle (Right-Top)
         int[][] blueCoordinates = {
-            {4, 9}, {5, 9},
-            {4, 10}, {5, 10}, {6, 10}, {7, 10},
-            {4, 11}, {5, 11}, {6, 11},
-            {4, 12}
-        };
-        fillArea(tiles, blueCoordinates, Tile.BLUE);
-
-        // PURPLE Triangle (Right-Bottom)
-        int[][] purpleCoordinates = {
             {9, 10},
             {10, 10}, {10, 11},
             {11, 9}, {11, 10}, {11, 11},
             {12, 9}, {12, 10}, {12, 11}, {12, 12}
         };
+        fillArea(tiles, blueCoordinates, Tile.BLUE);
+
+        // PURPLE Triangle (Right-Bottom)
+        int[][] purpleCoordinates = {
+            {4, 9}, {5, 9},
+            {4, 10}, {5, 10}, {6, 10}, {7, 10},
+            {4, 11}, {5, 11}, {6, 11},
+            {4, 12}
+        };
         fillArea(tiles, purpleCoordinates, Tile.PURPLE);
+        
 
         // Center (Empty)
         int[][] centerCoordinates = {

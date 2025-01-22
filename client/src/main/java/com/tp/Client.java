@@ -28,7 +28,7 @@ public class Client {
     private Color color = null;
 
     public void setColor(String color) {
-        System.out.println(color.toString());
+        System.out.println(color);
         this.color = Color.valueOf(color);
 
     }

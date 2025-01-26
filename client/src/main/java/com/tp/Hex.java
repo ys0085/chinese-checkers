@@ -40,21 +40,11 @@ public class Hex extends Polygon {
      */
     public void setTile(Tile t) {
         tile = t;
-        if(t == Tile.INVALID) setVisible(false);
+        if(t == Tile.INVALID || t == null) { setVisible(false); return; }
         else setVisible(true);
 
         if(t == Tile.EMPTY) setFill(Color.LIGHTGRAY);
-        else setFill(
-            switch(t){
-                case RED -> Color.RED;
-                case YELLOW -> Color.YELLOW;
-                case ORANGE -> Color.ORANGE;
-                case GREEN -> Color.GREEN;
-                case BLUE -> Color.LIGHTBLUE;
-                case PURPLE -> Color.PURPLE;
-                default -> Color.LIGHTGRAY;
-            }
-        );
+        else setFill(t.toColor().toPaintColor());
         
     }
 }

@@ -30,6 +30,9 @@ public class Receiver implements Runnable {
                     System.out.println("Invalid MOVE command format");
                 }
             }
+            case "YOURTURN" -> {
+                Client.getInstance().setYourTurn(true);
+            }
         }
     }
     @Override

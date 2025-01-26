@@ -6,7 +6,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client {
 
-    private Client(){}
+    private Client(){
+        yourTurn = false;
+    }
 
     
     private static Client instance = null;
@@ -66,9 +68,15 @@ public class Client {
         uiThread.join();
         senderThread.join();
         receiverThread.join();
-
     }
 
+    private boolean yourTurn;
+    public boolean isYourTurn(){
+        return yourTurn;
+    }
+    public void setYourTurn(boolean b){ 
+        yourTurn = b; 
+    }
 }
     
 

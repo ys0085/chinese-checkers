@@ -3,14 +3,18 @@ package com.tp;
 import java.util.function.Consumer;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class UIApp extends Application {
 
     private static Consumer<Move> moveCallback;
     public static BoardPanel boardPanel;
+    public static TurnLabel turnLabel;
 
     
     /** Generic setter
@@ -32,15 +36,35 @@ public class UIApp extends Application {
         BoardPanel mainPanel = new BoardPanel(UIApp.moveCallback);
         UIApp.boardPanel = mainPanel;
         mainPanel.setStyle("-fx-background-color: white;");
-        mainPanel.setMinWidth(700);
+        mainPanel.setMinWidth(600);
+        mainPanel.setMinHeight(550);
         
-        root.setLeft(mainPanel);
+        root.setTop(mainPanel);
 
-        mainPanel.update();
+        Pane bottomText = new Pane();
+        Label colorLabel = new Label("Your color is: ");
+        Label colorTextLabel = new Label(Client.getInstance().getColor().toString());
+        colorTextLabel.setTextFill(Client.getInstance().getColor().toPaintColor());
+        colorTextLabel.setLayoutX(200);
+        colorLabel.setAlignment(Pos.CENTER);
+        colorTextLabel.setAlignment(Pos.CENTER);
 
+        turnLabel = new TurnLabel();
+        turnLabel.setLayoutX(450);
+        turnLabel.setAlignment(Pos.CENTER);
+        turnLabel.start();
         
-        Scene scene = new Scene(root, 700, 700);
-        primaryStage.setTitle("Game");
+
+        bottomText.setMinWidth(600);
+        bottomText.setMinHeight(50);
+        bottomText.getChildren().addAll(colorLabel, colorTextLabel, turnLabel);
+
+        root.setBottom(bottomText);
+
+        boardPanel.update();
+
+        Scene scene = new Scene(root, 600, 600);
+        primaryStage.setTitle("Player: " + Client.getInstance().getColor().toString());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -48,4 +72,6 @@ public class UIApp extends Application {
     public static void main() {
         launch();
     }
+    
+    
 }

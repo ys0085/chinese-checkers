@@ -1,6 +1,7 @@
 package com.tp;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import com.tp.exception.ColorOccupiedException;
 import com.tp.exception.PlayerAlreadyInSessionException;
@@ -117,6 +118,19 @@ public class GameSession {
         return true;
     }
 
+    private boolean isSessionFull(){
+        for(Color c : Color.values()){
+            if (players.get(c) == null) return false;
+        }
+        return true;
+    }
+
+    public void tryStartGame(){
+        if(!isSessionFull()) return;
+        currentTurn = Color.values()[new Random().nextInt(6)];
+        nextPlayerTurn();
+    }
+
     public boolean leavePlayer(Player player) {
         return players.remove(getColor(player)) != null;
     }
@@ -128,7 +142,19 @@ public class GameSession {
         for(Player p : players.values()){
             if(!p.equals(player) && !p.equals(Player.MOCK_PLAYER)) p.notifyMove(move);
         }
+        nextPlayerTurn();
         return true;
     }
 
+    private Color currentTurn;
+    public Color getCurrentTurn(){
+        return currentTurn;
+    }
+    public void nextPlayerTurn(){
+        do{
+            currentTurn = Color.values()[(currentTurn.ordinal() + 1) % 6];
+        } while(players.get(currentTurn).equals(Player.MOCK_PLAYER));
+
+        players.get(currentTurn).notifyTurn();
+    }
 }

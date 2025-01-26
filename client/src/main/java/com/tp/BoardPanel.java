@@ -19,8 +19,8 @@ public class BoardPanel extends Region {
     final private double xPadding = 50; 
     final private double yPadding = 50; 
 
-    final private int rows = 20;    
-    final private int cols = 20; 
+    final private int rows = 17;    
+    final private int cols = 13; 
 
     private Consumer<Move> moveCallback;
 
@@ -51,6 +51,7 @@ public class BoardPanel extends Region {
                 hex.setOnMouseClicked(e -> {
                     if(!hex.isVisible()) return;
                     if((!(hex.tile.toString().equals(Client.getInstance().getColor().toString()))) && (selectedHex == null )) return;
+                    if(!Client.getInstance().isYourTurn()) return;
                     if(hex.isSelected()){
                         hex.toggleSelect();
                         selectedHex = null;
@@ -71,6 +72,8 @@ public class BoardPanel extends Region {
             }
         }
     }
+
+
 
     /**
      * BoardPanel update
@@ -95,7 +98,7 @@ public class BoardPanel extends Region {
         Position to = move.to;
         boolean success = board.move(new Move(from, to));
         if (success) {
-            update();
+            UIApp.boardPanel.update();
         }
         else {
             System.out.println("Invalid move received - possible desync");
@@ -111,8 +114,14 @@ public class BoardPanel extends Region {
         // System.out.println("move: " + from.toString()+ " " + to.toString() + star);
         if (success) {
             moveCallback.accept(new Move(from, to));
+            Client.getInstance().setYourTurn(false);
         }
-        update();
+        
+        
+        UIApp.boardPanel.update();
+    
     }
+
+
 
 }

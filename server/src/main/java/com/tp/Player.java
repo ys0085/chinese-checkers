@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.tp.exception.ColorOccupiedException;
+import com.tp.exception.PlayerAlreadyInSessionException;
+
 
 public class Player implements Runnable {
     public static Player MOCK_PLAYER = new Player(null);
@@ -15,6 +18,7 @@ public class Player implements Runnable {
     //private final Server server = Server.getInstance();
     private final Socket socket;
     private String name;
+    private Color color;
     
 
     Player(Socket socket) {
@@ -45,22 +49,24 @@ public class Player implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);
             boolean registered = false;
             while(!registered){
-                String color = "";
+                String colorstr = "";
                 if(in.hasNextLine()) {
                     String line[] = in.nextLine().toUpperCase().split(" ");
                     if(line[0].equals("HELLO") && line.length > 1){
                         name = line[1];
-                        color = line[2];
+                        colorstr = line[2];
                     }
                     else name = defaultName;
                 }
-                
+                this.color = Color.valueOf(colorstr);
                 try {
-                    Server.getInstance().getSession().joinPlayer(this, Color.valueOf(color));
-                    out.println("HELLO " + name + " " + color);
+                    Server.getInstance().getSession().joinPlayer(this, Color.valueOf(colorstr));
+                    
+                    out.println("HELLO " + name + " " + colorstr);
                     out.println("OK");
                     registered = true;
-                } catch (Exception e) {
+                    Server.getInstance().getSession().tryStartGame();
+                } catch (ColorOccupiedException | PlayerAlreadyInSessionException e) {
                     out.println("ERR");
                 }
         }
@@ -94,5 +100,10 @@ public class Player implements Runnable {
 
     public void notifyJoin(Player p, Color c){
         out.println("JOINED " + p.getName() + " " + c.name());
+    }
+
+    public void notifyTurn(){
+        out.println("YOURTURN");
+        System.out.println(this.color.toString() + "TURN"); //TODO: test this
     }
 }

@@ -52,6 +52,7 @@ public class BoardPanel extends Region {
                     if(!hex.isVisible()) return;
                     if((!(hex.tile.toString().equals(Client.getInstance().getColor().toString()))) && (selectedHex == null )) return;
                     if(!Client.getInstance().isYourTurn()) return;
+                    if(Client.getInstance().getWinningColor() != null) return;
                     if(hex.isSelected()){
                         hex.toggleSelect();
                         selectedHex = null;
@@ -99,6 +100,7 @@ public class BoardPanel extends Region {
         boolean success = board.move(new Move(from, to));
         if (success) {
             UIApp.boardPanel.update();
+            Client.getInstance().checkWin(board);
         }
         else {
             System.out.println("Invalid move received - possible desync");
@@ -115,6 +117,7 @@ public class BoardPanel extends Region {
         if (success) {
             moveCallback.accept(new Move(from, to));
             Client.getInstance().setYourTurn(false);
+            Client.getInstance().checkWin(board);
         }
         
         

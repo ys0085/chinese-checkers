@@ -77,6 +77,10 @@ public class Client {
     public void setYourTurn(boolean b){ 
         yourTurn = b; 
     }
+
+    private Color winningColor;
+    public Color getWinningColor(){ return winningColor; }
+    public void checkWin(Board b){ winningColor = b.checkForWin(); }
 }
     
 

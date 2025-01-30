@@ -200,76 +200,118 @@ public class Board {
             }
         }
     }
+    // RED Triangle (Top)
+    private static final int[][] redCoordinates = {
+        {0, 6},
+        {1, 5}, {1, 6},
+        {2, 5}, {2, 6}, {2, 7},
+        {3, 4}, {3, 5}, {3, 6}, {3, 7}
+    };
 
+    // YELLOW Triangle (Left-Top)
+    private static final int[][] yellowCoordinates = {
+        {4, 0}, {5, 0},
+        {4, 1}, {5, 1}, {6, 1}, {7, 1},
+        {4, 2}, {5, 2}, {6, 2},
+        {4, 3}
+    };
+
+    // ORANGE Triangle (Bottom)
+    private static final int[][] orangeCoordinates = {
+        {9, 1},
+        {10, 1}, {10, 2},
+        {11, 0}, {11, 1}, {11, 2},
+        {12, 0}, {12, 1}, {12, 2}, {12, 3}
+    };
+
+    // GREEN Triangle (Left-Bottom)
+    private static final int[][] greenCoordinates = {
+        {13, 4},
+        {13, 5}, {14, 5}, {15, 5},
+        {13, 6}, {14, 6}, {15, 6}, {16, 6},
+        {13, 7}, {14, 7}
+    };
+
+    // BLUE Triangle (Right-Top)
+    private static final int[][] blueCoordinates = {
+        {9, 10},
+        {10, 10}, {10, 11},
+        {11, 9}, {11, 10}, {11, 11},
+        {12, 9}, {12, 10}, {12, 11}, {12, 12}
+    };
+
+    // PURPLE Triangle (Right-Bottom)
+    private static final int[][] purpleCoordinates = {
+        {4, 9}, {5, 9},
+        {4, 10}, {5, 10}, {6, 10}, {7, 10},
+        {4, 11}, {5, 11}, {6, 11},
+        {4, 12}
+    };
+
+    // Center (Empty)
+    private static final int[][] centerCoordinates = {
+        {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
+        {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7}, {5, 8},
+        {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7}, {6, 8}, {6, 9},
+        {7, 2}, {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9},
+        {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}, {8, 9}, {8, 10},
+        {9, 2}, {9, 3}, {9, 4}, {9, 5}, {9, 6}, {9, 7}, {9, 8}, {9, 9},
+        {10, 3}, {10, 4}, {10, 5}, {10, 6}, {10, 7}, {10, 8}, {10, 9},
+        {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
+        {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
+    };
     private static void fillBoard(Tile[][] tiles) {
-        // RED Triangle (Top)
-        int[][] redCoordinates = {
-            {0, 6},
-            {1, 5}, {1, 6},
-            {2, 5}, {2, 6}, {2, 7},
-            {3, 4}, {3, 5}, {3, 6}, {3, 7}
-        };
         fillArea(tiles, redCoordinates, Tile.RED);
 
-        // YELLOW Triangle (Left-Top)
-        int[][] yellowCoordinates = {
-            {4, 0}, {5, 0},
-            {4, 1}, {5, 1}, {6, 1}, {7, 1},
-            {4, 2}, {5, 2}, {6, 2},
-            {4, 3}
-        };
         fillArea(tiles, yellowCoordinates, Tile.YELLOW);
-
-        // ORANGE Triangle (Bottom)
-        int[][] orangeCoordinates = {
-            {9, 1},
-            {10, 1}, {10, 2},
-            {11, 0}, {11, 1}, {11, 2},
-            {12, 0}, {12, 1}, {12, 2}, {12, 3}
-        };
+        
         fillArea(tiles, orangeCoordinates, Tile.ORANGE);
 
-        // GREEN Triangle (Left-Bottom)
-        int[][] greenCoordinates = {
-            {13, 4},
-            {13, 5}, {14, 5}, {15, 5},
-            {13, 6}, {14, 6}, {15, 6}, {16, 6},
-            {13, 7}, {14, 7}
-        };
         fillArea(tiles, greenCoordinates, Tile.GREEN);
-
-        // BLUE Triangle (Right-Top)
-        int[][] blueCoordinates = {
-            {9, 10},
-            {10, 10}, {10, 11},
-            {11, 9}, {11, 10}, {11, 11},
-            {12, 9}, {12, 10}, {12, 11}, {12, 12}
-        };
-        fillArea(tiles, blueCoordinates, Tile.BLUE);
-
-        // PURPLE Triangle (Right-Bottom)
-        int[][] purpleCoordinates = {
-            {4, 9}, {5, 9},
-            {4, 10}, {5, 10}, {6, 10}, {7, 10},
-            {4, 11}, {5, 11}, {6, 11},
-            {4, 12}
-        };
-        fillArea(tiles, purpleCoordinates, Tile.PURPLE);
         
-
-        // Center (Empty)
-        int[][] centerCoordinates = {
-            {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
-            {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7}, {5, 8},
-            {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7}, {6, 8}, {6, 9},
-            {7, 2}, {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9},
-            {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}, {8, 9}, {8, 10},
-            {9, 2}, {9, 3}, {9, 4}, {9, 5}, {9, 6}, {9, 7}, {9, 8}, {9, 9},
-            {10, 3}, {10, 4}, {10, 5}, {10, 6}, {10, 7}, {10, 8}, {10, 9},
-            {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
-            {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
-        };
+        fillArea(tiles, blueCoordinates, Tile.BLUE);
+        
+        fillArea(tiles, purpleCoordinates, Tile.PURPLE);   
+        
         fillArea(tiles, centerCoordinates, Tile.EMPTY);
+    }
+
+    public Color checkForWin(){
+        Color c = Color.RED;
+        for(int[] i : greenCoordinates){
+            if(getTile(i[0], i[1]) != Tile.RED) c = null;
+        }
+        if(c != null) return c;
+
+        c = Color.YELLOW;
+        for(int[] i : blueCoordinates){
+            if(getTile(i[0], i[1]) != Tile.YELLOW) c = null;
+        }
+        if(c != null) return c;
+
+        c = Color.ORANGE;
+        for(int[] i : purpleCoordinates){
+            if(getTile(i[0], i[1]) != Tile.ORANGE) c = null;
+        }
+        if(c != null) return c;
+
+        c = Color.GREEN;
+        for(int[] i : redCoordinates){
+            if(getTile(i[0], i[1]) != Tile.GREEN) c = null;
+        }
+        if(c != null) return c;
+
+        c = Color.BLUE;
+        for(int[] i : yellowCoordinates){
+            if(getTile(i[0], i[1]) != Tile.BLUE) c = null;
+        }
+        if(c != null) return c;
+        
+        c = Color.PURPLE;
+        for(int[] i : orangeCoordinates){
+            if(getTile(i[0], i[1]) != Tile.PURPLE) c = null;
+        }
+        return c;
     }
 
     private static void fillArea(Tile[][] tiles, int[][] coordinates, Tile color) {

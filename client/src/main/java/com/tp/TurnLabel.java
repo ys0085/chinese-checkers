@@ -18,7 +18,10 @@ public class TurnLabel extends Label {
         @Override
         public Void call() throws Exception {
             while (true) {
-                updateMessage("It's" +  (Client.getInstance().isYourTurn() ? "" : " not") + " your turn.");
+                if(Client.getInstance().getWinningColor() != null) 
+                    updateMessage(Client.getInstance().getWinningColor().equals(Client.getInstance().getColor()) ? "You have won!" : "You have lost!");
+                else 
+                    updateMessage("It's" +  (Client.getInstance().isYourTurn() ? "" : " not") + " your turn.");
             }
         }
     };

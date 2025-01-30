@@ -43,6 +43,7 @@ public class BoardPanel extends Region {
                 Label coordinates = new Label(row + "\n" + col);
                 coordinates.setLayoutX(x - HEX_SIZE / 2);
                 coordinates.setLayoutY(y - HEX_SIZE / 1.5);
+                coordinates.setVisible(false);
                 this.getChildren().add(hex);
                 this.getChildren().add(coordinates);
 

@@ -53,7 +53,7 @@ public class GameSession {
             }
         }
 
-        private Board board = new Board();
+        private Board board = new Board(Server.getInstance().getVariant());
         private HashMap<Color,Player> players = new HashMap<>(6);
 
         public GameSessionBuilder setBoard(Board board){

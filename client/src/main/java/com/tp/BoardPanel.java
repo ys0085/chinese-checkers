@@ -19,7 +19,7 @@ public class BoardPanel extends Region {
     final private double xPadding = 50; 
     final private double yPadding = 50; 
 
-    final private int rows = 17;    
+    final private int rows = 18;    
     final private int cols = 13; 
 
     private Consumer<Move> moveCallback;
@@ -27,7 +27,7 @@ public class BoardPanel extends Region {
     BoardPanel(Consumer<Move> moveCallback) {
         super();
         this.moveCallback = moveCallback;
-        board = new Board();
+        board = new Board(Client.getInstance().getVariant());
 
         for (int col = 0; col < cols; col++) {
             for (int row = 0; row < rows; row++) {

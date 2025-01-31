@@ -2,13 +2,15 @@ package com.tp;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * main board class
+ */
 public class Board { 
     private static Tile[][] tiles = new Tile[20][20];
 
     
     /** Move-making logic
-     * @param move
+     * @param move move
      * @return boolean
      */
     public boolean move(Move move) {
@@ -51,8 +53,8 @@ public class Board {
 
     
     /** Getter for valid positions
-     * @param startPosition
-     * @return List<Position>
+     * @param startPosition start position
+     * @return List<Position> list of valid destinations
      */
     public List<Position> getValidPositionsList(Position startPosition) {
         List<Position> validPositions = new ArrayList<>();
@@ -171,14 +173,20 @@ public class Board {
         return x >= 0 && y >= 0 && x < tiles.length && y < tiles[0].length && tiles[x][y] != Tile.INVALID;
     }
 
-    public Board() {
-        initBoard();
+    public Board(Variant variant) {
+        initBoard(variant);
+        if (variant != null) {
+            System.out.println(variant.toString());
+        }
+        else {
+            System.out.println("null wysedl niestety");
+        }
     }
     
     /**
      * Getter for specific tile
-     * @param row
-     * @param col
+     * @param row y
+     * @param col x
      * @return tile
      */
     public Tile getTile(int row, int col){
@@ -187,10 +195,11 @@ public class Board {
 
     /**
      * Board initialization
+     * @param variant variant chosen
      */
-    public static void initBoard() {
+    public static void initBoard(Variant variant) {
         setAllTilesToInvalid(tiles);      // Step 1: Set all tiles to INVALID
-        fillBoard(tiles);        // Step 2: Hardcode all tiles
+        fillBoard(tiles, variant);        // Step 2: Hardcode all tiles
     }
 
     private static void setAllTilesToInvalid(Tile[][] tiles) {
@@ -206,6 +215,14 @@ public class Board {
         {1, 5}, {1, 6},
         {2, 5}, {2, 6}, {2, 7},
         {3, 4}, {3, 5}, {3, 6}, {3, 7}
+    };
+    // RED Triangle (Top)
+    private static final int[][] redCoordinatesBig = {
+        {0, 6},
+        {1, 5}, {1, 6},
+        {2, 5}, {2, 6}, {2, 7},
+        {3, 4}, {3, 5}, {3, 6}, {3, 7},
+        {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8}
     };
 
     // YELLOW Triangle (Left-Top)
@@ -230,6 +247,12 @@ public class Board {
         {13, 5}, {14, 5}, {15, 5},
         {13, 6}, {14, 6}, {15, 6}, {16, 6},
         {13, 7}, {14, 7}
+    };
+    private static final int[][] greenCoordinatesBig = {
+        {13, 4},
+        {13, 5}, {14, 5}, {15, 5},
+        {13, 6}, {14, 6}, {15, 6}, {16, 6},
+        {13, 7}, {14, 7},{12,4},{12,5},{12,6},{12,7},{12,8}
     };
 
     // BLUE Triangle (Right-Top)
@@ -260,22 +283,29 @@ public class Board {
         {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
         {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
     };
-    private static void fillBoard(Tile[][] tiles) {
-        fillArea(tiles, redCoordinates, Tile.RED);
-
-        fillArea(tiles, yellowCoordinates, Tile.YELLOW);
-        
-        fillArea(tiles, orangeCoordinates, Tile.ORANGE);
-
-        fillArea(tiles, greenCoordinates, Tile.GREEN);
-        
-        fillArea(tiles, blueCoordinates, Tile.BLUE);
-        
-        fillArea(tiles, purpleCoordinates, Tile.PURPLE);   
-        
-        fillArea(tiles, centerCoordinates, Tile.EMPTY);
+    private static void fillBoard(Tile[][] tiles, Variant variant) {
+        if (variant == Variant.CLASSIC){
+            fillArea(tiles, centerCoordinates, Tile.EMPTY);
+            fillArea(tiles, redCoordinates, Tile.RED);
+            fillArea(tiles, yellowCoordinates, Tile.YELLOW);
+            fillArea(tiles, orangeCoordinates, Tile.ORANGE);
+            fillArea(tiles, greenCoordinates, Tile.GREEN);
+            fillArea(tiles, blueCoordinates, Tile.BLUE);
+            fillArea(tiles, purpleCoordinates, Tile.PURPLE);   
+        }
+        if (variant == Variant.ONEVONE) {
+            fillArea(tiles, centerCoordinates, Tile.EMPTY);
+            fillArea(tiles, redCoordinatesBig, Tile.RED);
+            fillArea(tiles, greenCoordinatesBig, Tile.GREEN);
+        }
+        else {
+            System.out.println("turbozle");
+        }
     }
-
+    /**
+     * check for the wining color
+     * @return winning color or null
+     */
     public Color checkForWin(){
         Color c = Color.RED;
         for(int[] i : greenCoordinates){

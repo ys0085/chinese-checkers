@@ -10,7 +10,7 @@ public class Server {
     //Singleton pattern using double-checked locking
 
     private static Server instance = null;
-
+    private Variant variant;
     private Server(){}
 
     
@@ -57,6 +57,11 @@ public class Server {
     public GameSession getSession(){
         return session;
     } 
-    
+    public void setVariant(Variant setVar){
+        variant = setVar;
+    }
+    public Variant getVariant(){
+        return variant;
+    }
 
 }

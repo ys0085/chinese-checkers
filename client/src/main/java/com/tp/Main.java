@@ -14,14 +14,11 @@ public class Main {
         int port = 54321;
 
         try (Socket socket = new Socket(serverAddress, port)) {
-            System.out.println("Connected to server: " + serverAddress + ":" + port);
-            
-            @SuppressWarnings("unused")
-            Board board = new Board();
-
+            System.out.println("Connected to server: " + serverAddress + ":" + port + " variant " + Variant.fromString(args[1]));
             Client client = Client.getInstance();
             client.setSocket(socket);
             client.setColor(args[0]);
+            client.setVariant(Variant.fromString(args[1]));
             client.start();
 
         } catch (Exception e) {

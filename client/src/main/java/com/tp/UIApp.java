@@ -15,7 +15,7 @@ public class UIApp extends Application {
     private static Consumer<Move> moveCallback;
     public static BoardPanel boardPanel;
     public static TurnLabel turnLabel;
-
+    public static Variant variant;
     
     /** Generic setter
      * @param moveCallback

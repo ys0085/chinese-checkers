@@ -12,7 +12,6 @@ public class Client {
 
     
     private static Client instance = null;
-    
     /** Singleton design pattern
      * @return Client
      */
@@ -81,6 +80,12 @@ public class Client {
     private Color winningColor;
     public Color getWinningColor(){ return winningColor; }
     public void checkWin(Board b){ winningColor = b.checkForWin(); }
+    private Variant variant;
+    public void setVariant(Variant setVar){
+        System.out.println(setVar.toString());
+        variant = setVar;
+    }
+    public Variant getVariant(){
+        return variant;
+    }
 }
-    
-

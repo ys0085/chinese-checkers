@@ -1,14 +1,24 @@
 package com.tp;
 
-public enum Color { //Colors numbered like in /colors.png
-    RED,
-    YELLOW,
-    ORANGE,
-    GREEN,
-    BLUE,
-    PURPLE;
-    public javafx.scene.paint.Color toPaintColor(){
-        return switch(this){
+/**
+ * Enum representing different player colors.
+ * Colors are numbered as shown in /colors.png.
+ */
+public enum Color {
+    RED,    /** Represents the red color. */
+    YELLOW, /** Represents the yellow color. */
+    ORANGE, /** Represents the orange color. */
+    GREEN,  /** Represents the green color. */
+    BLUE,   /** Represents the blue color. */
+    PURPLE; /** Represents the purple color. */
+
+    /**
+     * Converts the enum color to a corresponding JavaFX color for UI rendering.
+     * 
+     * @return The JavaFX color corresponding to the enum value.
+     */
+    public javafx.scene.paint.Color toPaintColor() {
+        return switch (this) {
             case RED -> javafx.scene.paint.Color.RED;
             case YELLOW -> javafx.scene.paint.Color.YELLOW;
             case ORANGE -> javafx.scene.paint.Color.ORANGE;

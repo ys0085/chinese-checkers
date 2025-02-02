@@ -2,210 +2,97 @@ package com.tp;
 
 import java.util.ArrayList;
 import java.util.List;
-/**
- * main board class
- */
-public class Board { 
-    private static Tile[][] tiles = new Tile[20][20];
 
-    
+/**
+ * Main board class that manages the game state and movement logic.
+ */
+public class Board {
+    private static TileMap tiles = new TileMap();
+
     /** Move-making logic
-     * @param move move
-     * @return boolean
+     * @param move Move object containing the source and destination positions
+     * @return boolean indicating whether the move was successful
      */
     public boolean move(Move move) {
         Position from = move.from;
         Position to = move.to;
 
-        // Get tiles for the source and destination positions
         Tile tileFrom = this.getTile(from.x, from.y);
         Tile tileTo = this.getTile(to.x, to.y);
 
-        // Validate the source tile
+        // Validate source and destination tiles
         if (tileFrom == Tile.EMPTY || tileFrom == Tile.INVALID) {
-            System.out.println("Move failed: Cannot move from an empty or invalid tile at position (" + from.x + ", " + from.y + ").");
+            System.out.println("Move failed: Cannot move from an empty or invalid tile at " + from);
             return false;
         }
-
-        // Validate the destination tile
         if (tileTo != Tile.EMPTY) {
-            System.out.println("Move failed: Cannot move to a non-empty tile at position (" + to.x + ", " + to.y + ").");
+            System.out.println("Move failed: Destination tile is not empty at " + to);
             return false;
         }
 
-        // Get the list of valid moves from the source position
         List<Position> validMoves = getValidPositionsList(from);
-
-        // Check if the destination position is in the list of valid moves
-        boolean isValid = validMoves.stream().anyMatch(pos -> pos.x == to.x && pos.y == to.y);
-
-        if (!isValid) {
-            System.out.println("Move failed: Destination position (" + to.x + ", " + to.y + ") is not a valid move from position (" + from.x + ", " + from.y + ").");
+        if (validMoves.contains(to)) {
+            System.out.println("Move failed: " + to + " is not a valid move from " + from);
             return false;
         }
 
         // Perform the move
-        tiles[from.x][from.y] = Tile.EMPTY; // Clear the source tile
-        tiles[to.x][to.y] = tileFrom;       // Set the destination tile to the moved piece
-        System.out.println("Move successful: Moved tile from position (" + from.x + ", " + from.y + ") to position (" + to.x + ", " + to.y + ").");
-        return true; // Move was successful
+        tiles.setTile(from.x, from.y, Tile.EMPTY);
+        tiles.setTile(to.x, to.y, tileFrom);
+        System.out.println("Move successful: " + from + " -> " + to);
+        return true;
     }
 
-    
-    /** Getter for valid positions
-     * @param startPosition start position
-     * @return List<Position> list of valid destinations
+    /**
+     * Gets a list of valid positions a tile can move to.
+     * @param startPosition The starting position
+     * @return List of valid positions
      */
     public List<Position> getValidPositionsList(Position startPosition) {
         List<Position> validPositions = new ArrayList<>();
-        boolean[][] visited = new boolean[tiles.length][tiles[0].length];
+        BoolMap visited = new BoolMap();
 
-        // Define neighbor directions for even and odd rows
-        int[][] evenRowDirections = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {1, -1}};
-        int[][] oddRowDirections = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, 1}, {1, 1}};
-
-        // Define jump directions for even and odd rows
-        int[][] evenRowJumpOverDirections = {{-1, -1}, {1, -1}, {0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-        int[][] evenRowJumpToDirections   = {{-2, -1}, {2, -1}, {0, -2}, {0, 2}, {-2, 1}, {2, 1}};
-        int[][] oddRowJumpOverDirections  = {{-1,  0}, {1,  0}, {0, -1}, {0, 1}, {-1, 1}, {1, 1}};
-        int[][] oddRowJumpToDirections    = {{-2, -1}, {2, -1}, {0, -2}, {0, 2}, {-2, 1}, {2, 1}};
-
-        System.out.println("---------- exploring for " + startPosition.toString());
-        exploreMoves(startPosition.x, startPosition.y, validPositions, visited,
-                     evenRowDirections, oddRowDirections,
-                     evenRowJumpOverDirections, evenRowJumpToDirections,
-                     oddRowJumpOverDirections, oddRowJumpToDirections,
-                     false); // Initial exploration is not a hop
-
+        // Define jump directions
+        int[][] jumpDirections = {{0, -1}, {1, -1}, {1, 0}, {0, 1}, {-1, 1}, {-1, 0}};
+        
+        exploreMoves(startPosition.x, startPosition.y, validPositions, visited, jumpDirections, false);
         return validPositions;
     }
 
-    private void exploreMoves(int x, int y, List<Position> validPositions, boolean[][] visited,
-                              int[][] evenRowDirections, int[][] oddRowDirections,
-                              int[][] evenRowJumpOverDirections, int[][] evenRowJumpToDirections,
-                              int[][] oddRowJumpOverDirections, int[][] oddRowJumpToDirections,
-                              boolean isHop) {
-        if (!isWithinBounds(x, y)) {
-            System.out.println("Skipping position: (" + x + ", " + y + ") (out of bounds)");
-            return;
-        }
+    private void exploreMoves(int x, int y, List<Position> validPositions, BoolMap visited, int[][] jumpDirections, boolean isHop) {
+        if (visited.getValue(x, y)) return;
 
-        if (visited[x][y]) {
-            System.out.println("Skipping position: (" + x + ", " + y + ") (already visited)");
-            return;
-        }
-
-        System.out.println("Exploring position: (" + x + ", " + y + ") (isHop = " + isHop + ")");
-
-        // Mark the current position as visited
-        visited[x][y] = true;
-
-        // Select directions for single-step and jump moves based on row type
-        int[][] singleStepDirections = (x % 2 == 0) ? evenRowDirections : oddRowDirections;
-        int[][] jumpOverDirections = (x % 2 == 0) ? evenRowJumpOverDirections : oddRowJumpOverDirections;
-        int[][] jumpToDirections = (x % 2 == 0) ? evenRowJumpToDirections : oddRowJumpToDirections;
-
-        // Explore neighbors (single-step moves) if not a hop
-        if (!isHop) {
-            exploreNeighbors(x, y, validPositions, singleStepDirections);
-        }
-
-        // Explore jumps (multi-hop moves)
-        exploreJumps(x, y, validPositions, visited, jumpOverDirections, jumpToDirections,
-                     evenRowDirections, oddRowDirections,
-                     evenRowJumpOverDirections, evenRowJumpToDirections,
-                     oddRowJumpOverDirections, oddRowJumpToDirections);
-
-        // Clear visited state after all paths are explored
-        visited[x][y] = false;
+        visited.setValue(x, y, true);
+        if (!isHop) exploreNeighbors(x, y, validPositions, jumpDirections);
+        exploreJumps(x, y, validPositions, visited, jumpDirections);
+        visited.setValue(x, y, false);
     }
 
     private void exploreNeighbors(int x, int y, List<Position> validPositions, int[][] directions) {
-        for (int[] direction : directions) {
-            int neighborX = x + direction[0];
-            int neighborY = y + direction[1];
-
-            if (isWithinBounds(neighborX, neighborY) && tiles[neighborX][neighborY] == Tile.EMPTY) {
-                Position validPosition = new Position(neighborX, neighborY);
-                if (!validPositions.contains(validPosition)) {
-                    validPositions.add(validPosition);
-                    System.out.println("Valid Position (Single Step): " + validPosition);
+        for (int[] dir : directions) {
+            int nx = x + dir[0], ny = y + dir[1];
+            if (tiles.getTile(nx, ny) == Tile.EMPTY) {
+                
+                Position pos = new Position(nx, ny);
+                System.out.println(pos.toString());
+                if (!validPositions.contains(pos)){
+                    System.out.println(pos.toString());
+                    validPositions.add(pos);
                 }
             }
         }
     }
 
-    private void exploreJumps(int x, int y, List<Position> validPositions, boolean[][] visited,
-                              int[][] jumpOverDirections, int[][] jumpToDirections,
-                              int[][] evenRowDirections, int[][] oddRowDirections,
-                              int[][] evenRowJumpOverDirections, int[][] evenRowJumpToDirections,
-                              int[][] oddRowJumpOverDirections, int[][] oddRowJumpToDirections) {
-        int[][] currentJumpOverDirections = (x % 2 == 0) ? evenRowJumpOverDirections : oddRowJumpOverDirections;
-        int[][] currentJumpToDirections = (x % 2 == 0) ? evenRowJumpToDirections : oddRowJumpToDirections;
-
-        for (int i = 0; i < currentJumpOverDirections.length; i++) {
-            int jumpOverX = x + currentJumpOverDirections[i][0];
-            int jumpOverY = y + currentJumpOverDirections[i][1];
-            int jumpToX = x + currentJumpToDirections[i][0];
-            int jumpToY = y + currentJumpToDirections[i][1];
-
-            if (isWithinBounds(jumpOverX, jumpOverY) && isWithinBounds(jumpToX, jumpToY)) {
-                if (tiles[jumpOverX][jumpOverY] != Tile.EMPTY && tiles[jumpOverX][jumpOverY] != Tile.INVALID &&
-                    tiles[jumpToX][jumpToY] == Tile.EMPTY) {
-                    Position validJumpPosition = new Position(jumpToX, jumpToY);
-                    if (!validPositions.contains(validJumpPosition)) {
-                        validPositions.add(validJumpPosition);
-                        System.out.println("Valid Position (Jump): " + validJumpPosition);
-
-                        // Recursively explore from the new jump position, marking it as a hop
-                        exploreMoves(jumpToX, jumpToY, validPositions, visited,
-                                     evenRowDirections, oddRowDirections,
-                                     evenRowJumpOverDirections, evenRowJumpToDirections,
-                                     oddRowJumpOverDirections, oddRowJumpToDirections,
-                                     true); // Pass true to indicate it's a hop
-                    }
+    private void exploreJumps(int x, int y, List<Position> validPositions, BoolMap visited, int[][] directions) {
+        for (int[] dir : directions) {
+            int overX = x + dir[0], overY = y + dir[1];
+            int toX = x + 2 * dir[0], toY = y + 2 * dir[1];
+            if (tiles.getTile(overX, overY) != Tile.EMPTY && tiles.getTile(toX, toY) == Tile.EMPTY) {
+                Position pos = new Position(toX, toY);
+                if (!validPositions.contains(pos)) {
+                    validPositions.add(pos);
+                    exploreMoves(toX, toY, validPositions, visited, directions, true);
                 }
-            }
-        }
-    }
-
-    private boolean isWithinBounds(int x, int y) {
-        return x >= 0 && y >= 0 && x < tiles.length && y < tiles[0].length && tiles[x][y] != Tile.INVALID;
-    }
-
-    public Board(Variant variant) {
-        initBoard(variant);
-        if (variant != null) {
-            System.out.println(variant.toString());
-        }
-        else {
-            System.out.println("null wysedl niestety");
-        }
-    }
-    
-    /**
-     * Getter for specific tile
-     * @param row y
-     * @param col x
-     * @return tile
-     */
-    public Tile getTile(int row, int col){
-        return tiles[row][col];
-    }
-
-    /**
-     * Board initialization
-     * @param variant variant chosen
-     */
-    public static void initBoard(Variant variant) {
-        setAllTilesToInvalid(tiles);      // Step 1: Set all tiles to INVALID
-        fillBoard(tiles, variant);        // Step 2: Hardcode all tiles
-    }
-
-    private static void setAllTilesToInvalid(Tile[][] tiles) {
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j] = Tile.INVALID;
             }
         }
     }
@@ -283,70 +170,166 @@ public class Board {
         {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
         {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
     };
-    private static void fillBoard(Tile[][] tiles, Variant variant) {
-        if (variant == Variant.CLASSIC){
+
+    /**
+     * Initializes the board based on the selected game variant.
+     * @param variant The game variant
+     */
+    public Board(Variant variant) {
+        initBoard(variant);
+        System.out.println(variant != null ? variant.toString() : "Variant is null");
+    }
+
+    /**
+     * Retrieves the tile at the specified position.
+     * @param row Row index
+     * @param col Column index
+     * @return The tile at the given position
+     */
+    public Tile getTile(int row, int col) {
+        return tiles.getTile(row, col);
+    }
+
+    private static void initBoard(Variant variant) {
+        fillCenter(tiles, variant);
+        fillTopLeft(tiles, variant, Tile.ORANGE);
+        fillBotRight(tiles, variant, Tile.PURPLE);
+        fillTopRight(tiles, variant, Tile.BLUE);
+        fillBotLeft(tiles, variant, Tile.YELLOW);
+        fillTop(tiles, variant, Tile.GREEN);
+        fillBot(tiles, variant, Tile.RED);
+        //fillBoard(tiles, variant);
+    }
+    private static void fillCenter(TileMap tiles, Variant variant){
+        for (int i = -5; i < 5; i++){
+            for (int j = -5; j < 5; j++){
+                if (Math.max(Math.abs(i), Math.abs(j)) <= 4){
+                    if (i + j <= 4){
+                        if (-i -j <= 4){
+                            tiles.setTile(i, j, Tile.EMPTY);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static void fillTopLeft(TileMap tiles, Variant variant, Tile tile){
+        for (int i = -5; i < 5; i++){
+            for (int j = -5; j < 5; j++){
+                if (Math.max(Math.abs(i), Math.abs(j)) <= 4){
+                    if (-i -j > 4){
+                        tiles.setTile(i, j, tile);
+                    }
+                }
+            }
+        }
+    }
+    private static void fillBotRight(TileMap tiles, Variant variant, Tile tile){
+        for (int i = -5; i < 5; i++){
+            for (int j = -5; j < 5; j++){
+                if (Math.max(Math.abs(i), Math.abs(j)) <= 4){
+                    if (-i -j > 4){
+                        tiles.setTile(-i, -j, tile);
+                    }
+                }
+            }
+        }
+    }
+    private static void fillTopRight(TileMap tiles, Variant variant, Tile tile){
+        for (int i = 5; i <= 8; i++){
+            for (int j = -4; j < 0; j++){
+                if (Math.max(Math.abs(i), Math.abs(j)) > 4){
+                    if (i + j < 5) {
+                        tiles.setTile(i, j, tile);
+                    } 
+                }
+            }
+        }
+    }
+    private static void fillBotLeft(TileMap tiles, Variant variant, Tile tile){
+        for (int i = 5; i <= 8; i++){
+            for (int j = -4; j < 0; j++){
+                if (Math.max(Math.abs(i), Math.abs(j)) > 4){
+                    if (i + j < 5) {
+                        tiles.setTile(-i, -j, tile);
+                    } 
+                }
+            }
+        }
+    }
+    private static void fillTop(TileMap tiles, Variant variant, Tile tile){
+        for (int i = 1; i <= 4; i++){
+            for (int j = -8; j <= -5; j++){
+                if (i + j >= -4){
+                    tiles.setTile(i, j, tile);
+                }
+            }
+        }
+    }
+    private static void fillBot(TileMap tiles, Variant variant, Tile tile){
+        for (int i = 1; i <= 4; i++){
+            for (int j = -8; j <= -5; j++){
+                if (i + j >= -4){
+                    tiles.setTile(-i, -j, tile);
+                }
+            }
+        }
+    }
+    private static void fillBoard(TileMap tiles, Variant variant) {
+        if (variant == Variant.CLASSIC) {
             fillArea(tiles, centerCoordinates, Tile.EMPTY);
             fillArea(tiles, redCoordinates, Tile.RED);
             fillArea(tiles, yellowCoordinates, Tile.YELLOW);
             fillArea(tiles, orangeCoordinates, Tile.ORANGE);
             fillArea(tiles, greenCoordinates, Tile.GREEN);
             fillArea(tiles, blueCoordinates, Tile.BLUE);
-            fillArea(tiles, purpleCoordinates, Tile.PURPLE);   
-        }
-        if (variant == Variant.ONEVONE) {
+            fillArea(tiles, purpleCoordinates, Tile.PURPLE);
+        } else if (variant == Variant.ONEVONE) {
             fillArea(tiles, centerCoordinates, Tile.EMPTY);
             fillArea(tiles, redCoordinatesBig, Tile.RED);
             fillArea(tiles, greenCoordinatesBig, Tile.GREEN);
-        }
-        else {
-            System.out.println("turbozle");
+        } else {
+            System.out.println("Invalid variant");
         }
     }
+
     /**
-     * check for the wining color
-     * @return winning color or null
+     * Checks for a winning color.
+     * @return The winning color, or null if no winner.
      */
-    public Color checkForWin(){
-        Color c = Color.RED;
-        for(int[] i : greenCoordinates){
-            if(getTile(i[0], i[1]) != Tile.RED) c = null;
+    public Color checkForWin() {
+        for (Color color : Color.values()) {
+            int[][] targetArea = getTargetCoordinates(color);
+            if (targetArea != null && isColorWinner(targetArea, color)) {
+                return color;
+            }
         }
-        if(c != null) return c;
+        return null;
+    }
+    private int[][] getTargetCoordinates(Color color) {
+        switch (color) {
+            case RED: return greenCoordinates; // Red's target is Green's starting area
+            case GREEN: return redCoordinates; // Green's target is Red's starting area
+            case YELLOW: return blueCoordinates; // Yellow's target is Blue's starting area
+            case BLUE: return yellowCoordinates; // Blue's target is Yellow's starting area
+            case ORANGE: return purpleCoordinates; // Orange's target is Purple's starting area
+            case PURPLE: return orangeCoordinates; // Purple's target is Orange's starting area
+            default: return null;
+        }
+    }
+    
 
-        c = Color.YELLOW;
-        for(int[] i : blueCoordinates){
-            if(getTile(i[0], i[1]) != Tile.YELLOW) c = null;
+    private boolean isColorWinner(int[][] targetArea, Color color) {
+        Tile targetTile = Tile.valueOf(color.name());
+        for (int[] pos : targetArea) {
+            if (getTile(pos[0], pos[1]) != targetTile) return false;
         }
-        if(c != null) return c;
-
-        c = Color.ORANGE;
-        for(int[] i : purpleCoordinates){
-            if(getTile(i[0], i[1]) != Tile.ORANGE) c = null;
-        }
-        if(c != null) return c;
-
-        c = Color.GREEN;
-        for(int[] i : redCoordinates){
-            if(getTile(i[0], i[1]) != Tile.GREEN) c = null;
-        }
-        if(c != null) return c;
-
-        c = Color.BLUE;
-        for(int[] i : yellowCoordinates){
-            if(getTile(i[0], i[1]) != Tile.BLUE) c = null;
-        }
-        if(c != null) return c;
-        
-        c = Color.PURPLE;
-        for(int[] i : orangeCoordinates){
-            if(getTile(i[0], i[1]) != Tile.PURPLE) c = null;
-        }
-        return c;
+        return true;
     }
 
-    private static void fillArea(Tile[][] tiles, int[][] coordinates, Tile color) {
+    private static void fillArea(TileMap tiles, int[][] coordinates, Tile color) {
         for (int[] coordinate : coordinates) {
-            tiles[coordinate[0]][coordinate[1]] = color;
+            tiles.setTile(coordinate[0], coordinate[1], color);
         }
     }
 }

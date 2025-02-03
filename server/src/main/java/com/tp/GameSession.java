@@ -148,8 +148,8 @@ public class GameSession {
     }
 
     private void winCheck(){
-        if(/*board.checkForWin() != null*/ true){
-            //System.out.println(board.checkForWin().toString() + " has won!"); //TODO: TEST !! UNCOMMENT
+        if(true){
+            System.out.println(board.checkForWin().toString() + " has won!");
             Server.getInstance().saveReplay(boardToReplay(board));
         }
     }

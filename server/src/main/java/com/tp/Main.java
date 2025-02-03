@@ -26,7 +26,6 @@ public class Main {
             server.launch();
         } catch (IOException e) {
             System.out.println("Unexpected error while launching: \n" + e.getMessage());
-            
         }
     }
 }

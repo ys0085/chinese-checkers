@@ -78,21 +78,11 @@ public class BoardPanel extends Region {
         }
     }
 
-    public void setBoard(Board b) { this.board = b; }
-    public Board getBoard() { return board; }
-
-    public boolean move(Move move) {
-        Position from = move.from;
-        Position to = move.to;
-        boolean success = board.move(new Move(from, to));
-        if (success) {
-            UIApp.boardPanel.update();
-            Client.getInstance().checkWin(board);
-        } else {
-            System.out.println("Invalid move received - possible desync");
-        }
-        return success;
+    public void setBoard(Board b) {
+        this.board = b;
+        UIApp.boardPanel.update();
     }
+    public Board getBoard() { return board; }
 
     private void parseMove(Hex h1, Hex h2) {
         Position from = new Position(h1.row, h1.col);

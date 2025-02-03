@@ -12,41 +12,51 @@ public class Receiver implements Runnable {
         this.socket = s;
     }
 
-    
-    /** Method handling server responses
+    /**
+     * Method handling server responses
+     * 
      * @param command
      * @param parts
      */
     private void handle(String command, String[] parts) {
 
         switch (command) {
-            case "MOVE" -> {
-                if (parts.length == 5) {
-                    boolean moved = UIApp.boardPanel.move(
-                            new Move( new Position(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])),
-                                    new Position(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]))));
-                    System.out.println(moved ? ("Move applied: " + String.join(" ", parts)) : "Couldnt apply move");
-                } else {
-                    System.out.println("Invalid MOVE command format");
-                }
-            }
             case "YOURTURN" -> {
                 Client.getInstance().setYourTurn(true);
             }
+
+            case "BOARD" -> {
+                if (parts.length == 65) {
+                    UIApp.boardPanel.setBoard(new Board(parts));
+                } else {
+                    System.out.println("Invalid BOARD command format");
+                }
+            }
+
+            case "YOURCOLOR" -> {
+                Client.getInstance().setColor(parts[1]);
+            }
+
+            case "PLAYERS" -> {
+                // TODO: Implement
+            }
+
+            case "GAMEOVER" -> {
+                // TODO: Implement
+            }
         }
     }
-    @Override
-    public void run(){
-        try (Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
+    @Override
+    public void run() {
+        try (Scanner in = new Scanner(socket.getInputStream());
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
             if (in.hasNextLine()) {
                 String[] line = in.nextLine().toUpperCase().split(" ");
-                if(!line[0].equals("HELLO")) {
+                if (!line[0].equals("HELLO")) {
                     throw new WrongColorException();
                 }
             }
-            
 
             while (in.hasNextLine()) {
                 String message = in.nextLine();

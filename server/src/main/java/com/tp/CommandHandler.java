@@ -1,7 +1,7 @@
 package com.tp;
 
 public interface CommandHandler {
-    public static String handle(String line, Player player){
+    public static String handle(String line, PlayerConnection player){
         Server server = Server.getInstance();
         String tokens[] = line.split(" ");
         String command = tokens[0].toUpperCase();

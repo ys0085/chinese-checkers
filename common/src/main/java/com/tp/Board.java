@@ -40,7 +40,6 @@ public class Board {
         tiles.setTile(from.x, from.y, Tile.EMPTY);
         tiles.setTile(to.x, to.y, tileFrom);
         System.out.println("Move successful: " + from + " -> " + to);
-        moveSequence.add(move);
         return true;
     }
 
@@ -105,13 +104,13 @@ public class Board {
         {3, 4}, {3, 5}, {3, 6}, {3, 7}
     };
     // RED Triangle (Top)
-    private static final int[][] redCoordinatesBig = {
-        {0, 6},
-        {1, 5}, {1, 6},
-        {2, 5}, {2, 6}, {2, 7},
-        {3, 4}, {3, 5}, {3, 6}, {3, 7},
-        {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8}
-    };
+    // private static final int[][] redCoordinatesBig = {
+    //     {0, 6},
+    //     {1, 5}, {1, 6},
+    //     {2, 5}, {2, 6}, {2, 7},
+    //     {3, 4}, {3, 5}, {3, 6}, {3, 7},
+    //     {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8}
+    // };
 
     // YELLOW Triangle (Left-Top)
     private static final int[][] yellowCoordinates = {
@@ -136,12 +135,12 @@ public class Board {
         {13, 6}, {14, 6}, {15, 6}, {16, 6},
         {13, 7}, {14, 7}
     };
-    private static final int[][] greenCoordinatesBig = {
-        {13, 4},
-        {13, 5}, {14, 5}, {15, 5},
-        {13, 6}, {14, 6}, {15, 6}, {16, 6},
-        {13, 7}, {14, 7},{12,4},{12,5},{12,6},{12,7},{12,8}
-    };
+    // private static final int[][] greenCoordinatesBig = {
+    //     {13, 4},
+    //     {13, 5}, {14, 5}, {15, 5},
+    //     {13, 6}, {14, 6}, {15, 6}, {16, 6},
+    //     {13, 7}, {14, 7},{12,4},{12,5},{12,6},{12,7},{12,8}
+    // };
 
     // BLUE Triangle (Right-Top)
     private static final int[][] blueCoordinates = {
@@ -160,27 +159,45 @@ public class Board {
     };
 
     // Center (Empty)
-    private static final int[][] centerCoordinates = {
-        {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
-        {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7}, {5, 8},
-        {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7}, {6, 8}, {6, 9},
-        {7, 2}, {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9},
-        {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}, {8, 9}, {8, 10},
-        {9, 2}, {9, 3}, {9, 4}, {9, 5}, {9, 6}, {9, 7}, {9, 8}, {9, 9},
-        {10, 3}, {10, 4}, {10, 5}, {10, 6}, {10, 7}, {10, 8}, {10, 9},
-        {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
-        {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
-    };
+    // private static final int[][] centerCoordinates = {
+    //     {4, 4}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
+    //     {5, 3}, {5, 4}, {5, 5}, {5, 6}, {5, 7}, {5, 8},
+    //     {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7}, {6, 8}, {6, 9},
+    //     {7, 2}, {7, 3}, {7, 4}, {7, 5}, {7, 6}, {7, 7}, {7, 8}, {7, 9},
+    //     {8, 2}, {8, 3}, {8, 4}, {8, 5}, {8, 6}, {8, 7}, {8, 8}, {8, 9}, {8, 10},
+    //     {9, 2}, {9, 3}, {9, 4}, {9, 5}, {9, 6}, {9, 7}, {9, 8}, {9, 9},
+    //     {10, 3}, {10, 4}, {10, 5}, {10, 6}, {10, 7}, {10, 8}, {10, 9},
+    //     {11, 3}, {11, 4}, {11, 5}, {11, 6}, {11, 7}, {11, 8},
+    //     {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
+    // };
 
     /**
      * Initializes the board based on the selected game variant.
      * @param variant The game variant
      */
-    private final Variant variant;
     public Board(Variant variant) {
-        this.variant = variant;
         initBoard(variant);
         System.out.println(variant != null ? variant.toString() : "Variant is null");
+    }
+
+    public Board(String[] boardData) {
+        for (int i = 0; i < boardData.length; i++) {
+            int row = i / 13;
+            int col = i % 13;
+            tiles.setTile(row, col, Tile.valueOf(boardData[i]));
+        }
+    }
+
+    @Override
+    public String toString() {
+        // Make sure it matches the Board constructor
+        StringBuilder sb = new StringBuilder();
+        for (int row = -5; row < 6; row++) {
+            for (int col = -5; col < 6; col++) {
+                sb.append(tiles.getTile(row, col).toString()).append(" ");
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -193,7 +210,7 @@ public class Board {
         return tiles.getTile(row, col);
     }
 
-    private static void initBoard(Variant variant) { //nie prosciej byłoby przechowywać w klasie Board to jakim jest wariantem? nie trzeba by bylo wszedzie tego podawac
+    private static void initBoard(Variant variant) {
         fillCenter(tiles, variant);
         fillTopLeft(tiles, variant, Tile.ORANGE);
         fillBotRight(tiles, variant, Tile.PURPLE);
@@ -278,23 +295,24 @@ public class Board {
             }
         }
     }
-    private static void fillBoard(TileMap tiles, Variant variant) {
-        if (variant == Variant.CLASSIC) {
-            fillArea(tiles, centerCoordinates, Tile.EMPTY);
-            fillArea(tiles, redCoordinates, Tile.RED);
-            fillArea(tiles, yellowCoordinates, Tile.YELLOW);
-            fillArea(tiles, orangeCoordinates, Tile.ORANGE);
-            fillArea(tiles, greenCoordinates, Tile.GREEN);
-            fillArea(tiles, blueCoordinates, Tile.BLUE);
-            fillArea(tiles, purpleCoordinates, Tile.PURPLE);
-        } else if (variant == Variant.ONEVONE) {
-            fillArea(tiles, centerCoordinates, Tile.EMPTY);
-            fillArea(tiles, redCoordinatesBig, Tile.RED);
-            fillArea(tiles, greenCoordinatesBig, Tile.GREEN);
-        } else {
-            System.out.println("Invalid variant");
-        }
-    }
+
+    // private static void fillBoard(TileMap tiles, Variant variant) {
+    //     if (variant == Variant.CLASSIC) {
+    //         fillArea(tiles, centerCoordinates, Tile.EMPTY);
+    //         fillArea(tiles, redCoordinates, Tile.RED);
+    //         fillArea(tiles, yellowCoordinates, Tile.YELLOW);
+    //         fillArea(tiles, orangeCoordinates, Tile.ORANGE);
+    //         fillArea(tiles, greenCoordinates, Tile.GREEN);
+    //         fillArea(tiles, blueCoordinates, Tile.BLUE);
+    //         fillArea(tiles, purpleCoordinates, Tile.PURPLE);
+    //     } else if (variant == Variant.ONEVONE) {
+    //         fillArea(tiles, centerCoordinates, Tile.EMPTY);
+    //         fillArea(tiles, redCoordinatesBig, Tile.RED);
+    //         fillArea(tiles, greenCoordinatesBig, Tile.GREEN);
+    //     } else {
+    //         System.out.println("Invalid variant");
+    //     }
+    // }
 
     /**
      * Checks for a winning color.
@@ -310,15 +328,15 @@ public class Board {
         return null;
     }
     private int[][] getTargetCoordinates(Color color) {
-        return switch (color) {
-            case RED -> greenCoordinates;       // Red's target is Green's starting area
-            case GREEN -> redCoordinates;       // Green's target is Red's starting area
-            case YELLOW -> blueCoordinates;     // Yellow's target is Blue's starting area
-            case BLUE -> yellowCoordinates;     // Blue's target is Yellow's starting area
-            case ORANGE -> purpleCoordinates;   // Orange's target is Purple's starting area
-            case PURPLE -> orangeCoordinates;   // Purple's target is Orange's starting area
-            default -> null;
-        }; 
+        switch (color) {
+            case RED: return greenCoordinates; // Red's target is Green's starting area
+            case GREEN: return redCoordinates; // Green's target is Red's starting area
+            case YELLOW: return blueCoordinates; // Yellow's target is Blue's starting area
+            case BLUE: return yellowCoordinates; // Blue's target is Yellow's starting area
+            case ORANGE: return purpleCoordinates; // Orange's target is Purple's starting area
+            case PURPLE: return orangeCoordinates; // Purple's target is Orange's starting area
+            default: return null;
+        }
     }
     
 
@@ -330,26 +348,9 @@ public class Board {
         return true;
     }
 
-    private static void fillArea(TileMap tiles, int[][] coordinates, Tile color) {
-        for (int[] coordinate : coordinates) {
-            tiles.setTile(coordinate[0], coordinate[1], color);
-        }
-    }
-
-
-    private ArrayList<Move> moveSequence;
-    public ArrayList<Move> getMoveSequence(){ return moveSequence; }
-
-    public ArrayList<Move> decodeReplayString(String moves){
-        String tokens[] = moves.split("|");
-        ArrayList<Move> sequence = new ArrayList<>();
-        for(String t : tokens){
-            String coordinates[] = t.split(",");
-            Move m = new Move(
-                        new Position(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])), 
-                        new Position(Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3])));
-            sequence.add(m);
-        }
-        return sequence;
-    }
+    // private static void fillArea(TileMap tiles, int[][] coordinates, Tile color) {
+    //     for (int[] coordinate : coordinates) {
+    //         tiles.setTile(coordinate[0], coordinate[1], color);
+    //     }
+    // }
 }

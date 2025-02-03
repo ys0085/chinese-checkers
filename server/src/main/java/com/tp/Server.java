@@ -2,6 +2,7 @@ package com.tp;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,7 +45,15 @@ public class Server {
             ExecutorService pool = Executors.newFixedThreadPool(32);
             running = true;
             while(running){
-                pool.execute(new Player(listener.accept()));
+                Socket socket = listener.accept();
+                try
+                {
+                    session.connectPlayer(socket, pool);
+                }
+                catch (Exception e)
+                {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }

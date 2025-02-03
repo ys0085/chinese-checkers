@@ -40,6 +40,7 @@ public class Board {
         tiles.setTile(from.x, from.y, Tile.EMPTY);
         tiles.setTile(to.x, to.y, tileFrom);
         System.out.println("Move successful: " + from + " -> " + to);
+        moveSequence.add(move);
         return true;
     }
 
@@ -175,7 +176,9 @@ public class Board {
      * Initializes the board based on the selected game variant.
      * @param variant The game variant
      */
+    private final Variant variant;
     public Board(Variant variant) {
+        this.variant = variant;
         initBoard(variant);
         System.out.println(variant != null ? variant.toString() : "Variant is null");
     }
@@ -190,7 +193,7 @@ public class Board {
         return tiles.getTile(row, col);
     }
 
-    private static void initBoard(Variant variant) {
+    private static void initBoard(Variant variant) { //nie prosciej byłoby przechowywać w klasie Board to jakim jest wariantem? nie trzeba by bylo wszedzie tego podawac
         fillCenter(tiles, variant);
         fillTopLeft(tiles, variant, Tile.ORANGE);
         fillBotRight(tiles, variant, Tile.PURPLE);
@@ -307,15 +310,15 @@ public class Board {
         return null;
     }
     private int[][] getTargetCoordinates(Color color) {
-        switch (color) {
-            case RED: return greenCoordinates; // Red's target is Green's starting area
-            case GREEN: return redCoordinates; // Green's target is Red's starting area
-            case YELLOW: return blueCoordinates; // Yellow's target is Blue's starting area
-            case BLUE: return yellowCoordinates; // Blue's target is Yellow's starting area
-            case ORANGE: return purpleCoordinates; // Orange's target is Purple's starting area
-            case PURPLE: return orangeCoordinates; // Purple's target is Orange's starting area
-            default: return null;
-        }
+        return switch (color) {
+            case RED -> greenCoordinates;       // Red's target is Green's starting area
+            case GREEN -> redCoordinates;       // Green's target is Red's starting area
+            case YELLOW -> blueCoordinates;     // Yellow's target is Blue's starting area
+            case BLUE -> yellowCoordinates;     // Blue's target is Yellow's starting area
+            case ORANGE -> purpleCoordinates;   // Orange's target is Purple's starting area
+            case PURPLE -> orangeCoordinates;   // Purple's target is Orange's starting area
+            default -> null;
+        }; 
     }
     
 
@@ -331,5 +334,22 @@ public class Board {
         for (int[] coordinate : coordinates) {
             tiles.setTile(coordinate[0], coordinate[1], color);
         }
+    }
+
+
+    private ArrayList<Move> moveSequence;
+    public ArrayList<Move> getMoveSequence(){ return moveSequence; }
+
+    public ArrayList<Move> decodeReplayString(String moves){
+        String tokens[] = moves.split("|");
+        ArrayList<Move> sequence = new ArrayList<>();
+        for(String t : tokens){
+            String coordinates[] = t.split(",");
+            Move m = new Move(
+                        new Position(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])), 
+                        new Position(Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3])));
+            sequence.add(m);
+        }
+        return sequence;
     }
 }

@@ -143,7 +143,15 @@ public class GameSession {
             if(!p.equals(player) && !p.equals(Player.MOCK_PLAYER)) p.notifyMove(move);
         }
         nextPlayerTurn();
+        
         return true;
+    }
+
+    private void winCheck(){
+        if(board.checkForWin() == null) return;
+        else {
+            System.out.println(board.checkForWin().toString() + " has won!");
+        }
     }
 
     private Color currentTurn;

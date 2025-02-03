@@ -12,6 +12,7 @@
     <module>client</module>
     <module>server</module>
     <module>common</module>
+    <module>database</module>
   </modules>
 
   <name>chinese-checkers</name>
@@ -25,6 +26,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

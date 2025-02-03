@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Server {
 
     //Singleton pattern using double-checked locking
@@ -13,7 +15,10 @@ public class Server {
     private Variant variant;
     private Server(){}
 
-    
+    @Autowired
+    private ReplayRepository replayRepository;
+
+    private ReplayService replayService = new ReplayService(replayRepository);
     /** Singleton design pattern
      * @return Server
      */
@@ -38,7 +43,8 @@ public class Server {
         if(!running) this.port = port;
     }
 
-    void launch() throws IOException{
+    void launch() throws IOException {
+        
         try(ServerSocket listener = new ServerSocket(port)){
             System.out.println("Server is running on port " + port);
             ExecutorService pool = Executors.newFixedThreadPool(32);
@@ -50,7 +56,7 @@ public class Server {
     }
 
     private GameSession session;
-    public void createSession(String capacity, String mode){
+    public void createSession(String capacity){
         this.session = new GameSession.GameSessionBuilder("Room", Integer.parseInt(capacity)).build();
     }
 
@@ -62,6 +68,11 @@ public class Server {
     }
     public Variant getVariant(){
         return variant;
+    }
+
+
+    public void saveReplay(Replay r){
+        replayService.saveReplay(r);
     }
 
 }

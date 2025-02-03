@@ -143,15 +143,22 @@ public class GameSession {
             if(!p.equals(player) && !p.equals(Player.MOCK_PLAYER)) p.notifyMove(move);
         }
         nextPlayerTurn();
-        
+        winCheck();
         return true;
     }
 
     private void winCheck(){
-        if(board.checkForWin() == null) return;
-        else {
-            System.out.println(board.checkForWin().toString() + " has won!");
+        if(/*board.checkForWin() != null*/ true){
+            //System.out.println(board.checkForWin().toString() + " has won!"); //TODO: TEST !! UNCOMMENT
+            Server.getInstance().saveReplay(boardToReplay(board));
         }
+    }
+
+    public Replay boardToReplay(Board b){
+        Replay r = new Replay();
+        r.setMoveHistory(b.getMoveSequence());
+        r.setVariant(b.getVariant());
+        return r;
     }
 
     private Color currentTurn;

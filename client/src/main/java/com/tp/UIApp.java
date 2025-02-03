@@ -16,7 +16,7 @@ public class UIApp extends Application {
     public static BoardPanel boardPanel;
     public static TurnLabel turnLabel;
     public static Variant variant;
-    
+    private final Client client = Client.getInstance();
     /** Generic setter
      * @param moveCallback
      */
@@ -43,8 +43,8 @@ public class UIApp extends Application {
 
         Pane bottomText = new Pane();
         Label colorLabel = new Label("Your color is: ");
-        Label colorTextLabel = new Label(Client.getInstance().getColor().toString());
-        colorTextLabel.setTextFill(Client.getInstance().getColor().toPaintColor());
+        Label colorTextLabel = new Label(client.getColor().toString());
+        colorTextLabel.setTextFill(client.getColor().toPaintColor());
         colorTextLabel.setLayoutX(200);
         colorLabel.setAlignment(Pos.CENTER);
         colorTextLabel.setAlignment(Pos.CENTER);
@@ -54,7 +54,6 @@ public class UIApp extends Application {
         turnLabel.setAlignment(Pos.CENTER);
         turnLabel.start();
         
-
         bottomText.setMinWidth(600);
         bottomText.setMinHeight(50);
         bottomText.getChildren().addAll(colorLabel, colorTextLabel, turnLabel);
@@ -64,13 +63,22 @@ public class UIApp extends Application {
         boardPanel.update();
 
         Scene scene = new Scene(root, 600, 600);
-        primaryStage.setTitle("Player: " + Client.getInstance().getColor().toString());
+        primaryStage.setTitle("Player: " + client.getColor().toString());
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        if(client.isReplayMode()){
+            enterReplayMode(boardPanel);
+        }
     }
 
     public static void main() {
         launch();
+    }
+
+    private void enterReplayMode(BoardPanel bp){
+        Replay replay = client.getReplay();
+        bp.playReplay(replay);
     }
     
     

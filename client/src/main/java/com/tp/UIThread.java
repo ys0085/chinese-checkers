@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class UIThread implements Runnable  {
 
-    private BlockingQueue<Move> uiActionQueue;
+    private final BlockingQueue<Move> uiActionQueue;
 
     UIThread(BlockingQueue<Move> uiActionQueue) {
         this.uiActionQueue = uiActionQueue;

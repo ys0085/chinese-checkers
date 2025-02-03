@@ -104,6 +104,6 @@ public class Player implements Runnable {
 
     public void notifyTurn(){
         out.println("YOURTURN");
-        System.out.println(this.color.toString() + "TURN"); //TODO: test this
+        System.out.println(this.color.toString() + "TURN");
     }
 }

@@ -4,9 +4,15 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Client {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class Client {
+    
+    @Autowired
+    private ReplayRepository replayRepository;
+    private final ReplayService replayService;
     private Client(){
+        replayService = new ReplayService(replayRepository);
         yourTurn = false;
     }
 
@@ -54,6 +60,7 @@ public class Client {
      * @throws InterruptedException
      */
     public void start() throws InterruptedException {
+    
         BlockingQueue<Move> uiActionQueue = new LinkedBlockingQueue<>();
 
         Thread senderThread = new Thread(new Sender(socket, uiActionQueue));
@@ -61,12 +68,14 @@ public class Client {
         Thread uiThread = new Thread(new UIThread(uiActionQueue));
 
         uiThread.start();
-        senderThread.start();
-        receiverThread.start();
+        if(!replayMode) senderThread.start();
+        if(!replayMode) receiverThread.start();
 
         uiThread.join();
-        senderThread.join();
-        receiverThread.join();
+        if(!replayMode) senderThread.join();
+        if(!replayMode) receiverThread.join();
+        
+        
     }
 
     private boolean yourTurn;
@@ -80,6 +89,7 @@ public class Client {
     private Color winningColor;
     public Color getWinningColor(){ return winningColor; }
     public void checkWin(Board b){ winningColor = b.checkForWin(); }
+
     private Variant variant;
     public void setVariant(Variant setVar){
         System.out.println(setVar.toString());
@@ -88,4 +98,31 @@ public class Client {
     public Variant getVariant(){
         return variant;
     }
+
+    private boolean replayMode = false;
+    public void setReplayMode(boolean b) {
+        replayMode = b;
+    }
+    public boolean isReplayMode() {
+        return replayMode;
+    }
+    private long replayID;
+    public void setReplayID(long id){
+        replayID = id;
+        replay = replayService.getReplayById(id);
+    }
+    public long getReplayID(){
+        return replayID;
+    }
+
+    private Replay replay;
+
+    public Replay getReplay(){
+        return replay;
+    }
+    
+    public ReplayService getReplayService(){
+        return replayService;
+    }
+    
 }

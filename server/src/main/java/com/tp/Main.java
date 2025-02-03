@@ -15,10 +15,10 @@ public class Main {
             port = 54321;
         }
         Server server = Server.getInstance();
-        Variant variant = Variant.fromString(args[3]);
+        Variant variant = Variant.fromString(args[2]);
         server.setPort(port);
         server.setVariant(variant);
-        server.createSession(args[1], args[2]);
+        server.createSession(args[1]);
         
         
         System.out.println("Launching server on port " + port + " variant " + variant.toString());

@@ -172,11 +172,12 @@ public class Board {
         {12, 4}, {12, 5}, {12, 6}, {12, 7}, {12, 8}
     };
 
+    private final Variant variant;
+    public Variant getVariant(){ return variant; }
     /**
      * Initializes the board based on the selected game variant.
      * @param variant The game variant
      */
-    private final Variant variant;
     public Board(Variant variant) {
         this.variant = variant;
         initBoard(variant);
@@ -337,7 +338,7 @@ public class Board {
     }
 
 
-    private ArrayList<Move> moveSequence;
+    private ArrayList<Move> moveSequence = new ArrayList<>();
     public ArrayList<Move> getMoveSequence(){ return moveSequence; }
 
     public ArrayList<Move> decodeReplayString(String moves){

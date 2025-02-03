@@ -21,12 +21,14 @@ public class BoardPanel extends Region {
     private static final int ROWS = 8;    
     private static final int COLS = 8; 
 
-    private Consumer<Move> moveCallback;
+    private final Consumer<Move> moveCallback;
+
+    private static final Client client = Client.getInstance();
 
     BoardPanel(Consumer<Move> moveCallback) {
         super();
         this.moveCallback = moveCallback;
-        this.board = new Board(Client.getInstance().getVariant());
+        this.board = new Board(client.getVariant());
     
         for (int row = -ROWS; row <= ROWS; row++) { // Adjusted for negative coordinates
             for (int col = -COLS; col <= COLS; col++) { // Adjusted for negative coordinates
@@ -53,9 +55,10 @@ public class BoardPanel extends Region {
 
     private void handleHexClick(Hex hex) {
         if (!hex.isVisible()) return;
-        if (!(hex.tile.toString().equals(Client.getInstance().getColor().toString())) && selectedHex == null) return;
-        if (!Client.getInstance().isYourTurn()) return;
-        if (Client.getInstance().getWinningColor() != null) return;
+        if (!(hex.tile.toString().equals(client.getColor().toString())) && selectedHex == null) return;
+        if (!client.isYourTurn()) return;
+        if (client.getWinningColor() != null) return;
+        if (client.isReplayMode()) return;
 
         if (hex.isSelected()) {
             hex.toggleSelect();
@@ -87,7 +90,7 @@ public class BoardPanel extends Region {
         boolean success = board.move(new Move(from, to));
         if (success) {
             UIApp.boardPanel.update();
-            Client.getInstance().checkWin(board);
+            client.checkWin(board);
         } else {
             System.out.println("Invalid move received - possible desync");
         }
@@ -100,9 +103,23 @@ public class BoardPanel extends Region {
         boolean success = board.move(new Move(from, to));
         if (success) {
             moveCallback.accept(new Move(from, to));
-            Client.getInstance().setYourTurn(false);
-            Client.getInstance().checkWin(board);
+            client.setYourTurn(false);
+            client.checkWin(board);
         }
         UIApp.boardPanel.update();
+    }
+
+    public void playReplay(Replay replay) {
+        ArrayList<Move> moves = replay.getMoveHistory();
+        Variant var = replay.getVariant();
+        board = new Board(var);
+        try {
+            for(Move m : moves){
+                Thread.sleep(1000);
+                move(m);
+            }
+        } catch (InterruptedException e) {
+            System.err.println("Replay playback interrupted");
+        }   
     }
 }

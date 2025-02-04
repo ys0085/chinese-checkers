@@ -8,7 +8,7 @@ public class Move {
      * The starting position of the move.
      */
     final public Position from;
-    
+
     /**
      * The destination position of the move.
      */
@@ -27,11 +27,10 @@ public class Move {
      * Constructs a Move with specified positions.
      *
      * @param from The starting position.
-     * @param to The destination position.
+     * @param to   The destination position.
      */
     public Move(Position from, Position to) {
         this.from = from;
         this.to = to;
     }
-    
 }

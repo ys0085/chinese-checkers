@@ -5,12 +5,19 @@ package com.tp;
  * Colors are numbered as shown in /colors.png.
  */
 public enum Color {
-    RED,    /** Represents the red color. */
-    YELLOW, /** Represents the yellow color. */
-    ORANGE, /** Represents the orange color. */
-    GREEN,  /** Represents the green color. */
-    BLUE,   /** Represents the blue color. */
-    PURPLE; /** Represents the purple color. */
+    RED,
+    /** Represents the red color. */
+    YELLOW,
+    /** Represents the yellow color. */
+    ORANGE,
+    /** Represents the orange color. */
+    GREEN,
+    /** Represents the green color. */
+    BLUE,
+    /** Represents the blue color. */
+    PURPLE;
+
+    /** Represents the purple color. */
 
     /**
      * Converts the enum color to a corresponding JavaFX color for UI rendering.

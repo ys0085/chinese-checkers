@@ -20,7 +20,8 @@ public enum Variant {
                         return variant;
                     }
                 }
-                throw new IllegalArgumentException("No enum constant " + Variant.class.getCanonicalName() + " for input: " + value);
+                throw new IllegalArgumentException(
+                        "No enum constant " + Variant.class.getCanonicalName() + " for input: " + value);
         }
     }
 }

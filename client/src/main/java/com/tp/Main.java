@@ -1,12 +1,13 @@
 package com.tp;
 
 import java.net.Socket;
-
+/** Main class. Entry point of the client program.
+     */
 public class Main {
     
     /** Main class. Entry point of the client program.
-     * @param args
-     * @throws Exception
+     * @param args pass cmd arguments
+     * @throws Exception exeption
      */
     public static void main(String[] args) throws Exception {
         
@@ -14,18 +15,10 @@ public class Main {
         int port = 54321;
 
         try (Socket socket = new Socket(serverAddress, port)) {
-            System.out.println("Connected to server: " + serverAddress + ":" + port + " variant " + Variant.fromString(args[1]));
+            System.out.println("Connected to server: " + serverAddress + ":" + port );
             Client client = Client.getInstance();
             client.setSocket(socket);
-            if (args[0].toUpperCase().equals("REPLAY")){
-                client.setColor("RED");
-                client.setReplayMode(true);
-                client.setReplayID(Integer.parseInt(args[1]));
-            }
-            else {
-                client.setColor(args[0].toUpperCase());
-                client.setVariant(Variant.fromString(args[1]));
-            }
+            client.setVariant(Variant.fromString(args[0]));
             client.start();
 
         } catch (Exception e) {

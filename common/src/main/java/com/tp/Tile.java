@@ -1,8 +1,7 @@
 package com.tp;
 // enum na mozliwe stany miejsca na planszy
 
-
-public enum Tile { 
+public enum Tile {
     EMPTY,
     RED,
     YELLOW,
@@ -11,8 +10,11 @@ public enum Tile {
     BLUE,
     PURPLE,
     INVALID;
-    public Color toColor(){
-        if(this == EMPTY || this == INVALID) return null;
-        else return Color.valueOf(this.toString());
+
+    public Color toColor() {
+        if (this == EMPTY || this == INVALID)
+            return null;
+        else
+            return Color.valueOf(this.toString());
     }
 }

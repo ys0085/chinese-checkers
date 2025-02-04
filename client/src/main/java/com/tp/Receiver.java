@@ -1,75 +1,3 @@
-<<<<<<< Updated upstream
-package com.tp;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
-
-public class Receiver implements Runnable {
-    private final Socket socket;
-
-    public Receiver(Socket s) {
-        this.socket = s;
-    }
-
-    
-    /** Method handling server responses
-     * @param command
-     * @param parts
-     */
-    private void handle(String command, String[] parts) {
-
-        switch (command) {
-            case "MOVE" -> {
-                if (parts.length == 5) {
-                    boolean moved = UIApp.boardPanel.move(
-                            new Move( new Position(Integer.parseInt(parts[1]), Integer.parseInt(parts[2])),
-                                    new Position(Integer.parseInt(parts[3]), Integer.parseInt(parts[4]))));
-                    System.out.println(moved ? ("Move applied: " + String.join(" ", parts)) : "Couldnt apply move");
-                } else {
-                    System.out.println("Invalid MOVE command format");
-                }
-            }
-            case "YOURTURN" -> {
-                Client.getInstance().setYourTurn(true);
-            }
-        }
-    }
-    @Override
-    public void run(){
-        try (Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-
-            if (in.hasNextLine()) {
-                String[] line = in.nextLine().toUpperCase().split(" ");
-                if(!line[0].equals("HELLO")) {
-                    throw new WrongColorException();
-                }
-            }
-            
-
-            while (in.hasNextLine()) {
-                String message = in.nextLine();
-                String[] parts = message.split(" ");
-                handle(parts[0], parts);
-            }
-
-        } catch (IOException e) {
-            System.out.println("Receiver thread terminated.");
-        } catch (WrongColorException e) {
-            System.out.println("Wrong color. Reciever thread terminated.");
-        } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Closed connection: " + socket);
-        }
-    }
-}
-=======
 package com.tp;
 
 // Required imports
@@ -80,7 +8,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 import javax.management.RuntimeErrorException;
 
-// Class Receiver implements Runnable to allow it to be executed in a separate thread
+/**
+ * The {@code Receiver} class handles incoming messages from the server.
+ */
 public class Receiver implements Runnable {
     private final Socket socket; // Socket for communication with the server
 
@@ -168,4 +98,3 @@ public class Receiver implements Runnable {
         }
     }
 }
->>>>>>> Stashed changes

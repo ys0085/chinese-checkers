@@ -1,58 +1,89 @@
-<<<<<<< Updated upstream
 package com.tp;
 
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The {@code Client} class represents a singleton client instance that handles
+ * network communication and user interactions for a game.
+ */
 public class Client {
 
-    private Client(){
+    /**
+     * Private constructor for singleton pattern.
+     * Initializes {@code yourTurn} to {@code false}, indicating it's not the player's turn initially.
+     */
+    private Client() {
         yourTurn = false;
     }
 
-    
+    /**
+     * Static instance variable for the singleton {@code Client}.
+     */
     private static Client instance = null;
-    /** Singleton design pattern
-     * @return Client
+
+    /**
+     * Returns the single instance of the {@code Client} class, implementing the singleton design pattern.
+     * Uses double-checked locking to ensure thread safety.
+     *
+     * @return the single instance of {@code Client}
      */
     @SuppressWarnings("DoubleCheckedLocking")
-    public static Client getInstance(){
-        if (instance == null){
-            synchronized(Client.class){
-                if(instance == null) instance = new Client();
+    public static Client getInstance() {
+        if (instance == null) {
+            synchronized (Client.class) {
+                if (instance == null)
+                    instance = new Client();
             }
         }
         return instance;
     }
 
-
+    /**
+     * Socket for network communication.
+     */
     private Socket socket;
 
-    public void setSocket(Socket s){ socket = s; }
+    /**
+     * Sets the socket for network communication.
+     *
+     * @param s the socket to be assigned to the client
+     */
+    public void setSocket(Socket s) {
+        socket = s;
+    }
 
+    /**
+     * Color representing the current state of the client.
+     */
     private Color color = null;
 
-    
-    /** generic setter
-     * @param color
+    /**
+     * Sets the color property by converting the given string to a {@code Color} enum.
+     * Updates the UI accordingly.
+     *
+     * @param color color name as a string
      */
     public void setColor(String color) {
-        System.out.println(color);
         this.color = Color.valueOf(color);
+        UIApp.updateLabel();
+    }
 
-    }
-    /** generic getter
-     * @return color
-     */
-    public Color getColor(){
-        System.out.println(color.toString());
-        return color; 
-    }
-    
     /**
-     * Client start
-     * @throws InterruptedException
+     * Retrieves the current color of the client.
+     *
+     * @return the current color
+     */
+    public Color getColor() {
+        System.out.println(color.toString());
+        return color;
+    }
+
+    /**
+     * Starts the client, initializing threads for sending and receiving data.
+     *
+     * @throws InterruptedException if thread execution is interrupted
      */
     public void start() throws InterruptedException {
         BlockingQueue<Move> uiActionQueue = new LinkedBlockingQueue<>();
@@ -62,166 +93,79 @@ public class Client {
         Thread uiThread = new Thread(new UIThread(uiActionQueue));
 
         uiThread.start();
+
+        // Wait until the board panel is initialized
+        while (UIApp.boardPanel == null) {
+            Thread.sleep(100);
+        }
+
         senderThread.start();
         receiverThread.start();
 
+        // Wait for all threads to complete
         uiThread.join();
         senderThread.join();
         receiverThread.join();
     }
 
-    private boolean yourTurn;
-    public boolean isYourTurn(){
+    /**
+     * Indicates whether it's the player's turn.
+     */
+    private boolean yourTurn = false;
+
+    /**
+     * Checks if it is currently the player's turn.
+     *
+     * @return {@code true} if it's the player's turn, {@code false} otherwise
+     */
+    public boolean isYourTurn() {
         return yourTurn;
     }
-    public void setYourTurn(boolean b){ 
-        yourTurn = b; 
+
+    /**
+     * Sets whether it is the player's turn.
+     *
+     * @param b {@code true} if it's the player's turn, {@code false} otherwise
+     */
+    public void setYourTurn(boolean b) {
+        yourTurn = b;
     }
 
+    /**
+     * Color of the winning player.
+     */
     private Color winningColor;
-    public Color getWinningColor(){ return winningColor; }
-    public void checkWin(Board b){ winningColor = b.checkForWin(); }
+
+    /**
+     * Retrieves the winning color.
+     *
+     * @return the color of the winning player
+     */
+    public Color getWinningColor() {
+        return winningColor;
+    }
+
+    /**
+     * Represents the game variant settings.
+     */
     private Variant variant;
-    public void setVariant(Variant setVar){
+
+    /**
+     * Sets the game variant and prints it to the console.
+     *
+     * @param setVar the game variant to set
+     */
+    public void setVariant(Variant setVar) {
         System.out.println(setVar.toString());
         variant = setVar;
     }
-    public Variant getVariant(){
+
+    /**
+     * Retrieves the game variant.
+     *
+     * @return the current game variant
+     */
+    public Variant getVariant() {
         return variant;
     }
-=======
-package com.tp;
-
-import java.net.Socket; // Importing the Socket class for network communication
-import java.util.concurrent.BlockingQueue; // Importing BlockingQueue for thread-safe queue operations
-import java.util.concurrent.LinkedBlockingQueue; // Importing LinkedBlockingQueue for queue implementation
-
-public class Client {
-
-    // Private constructor for singleton pattern
-    private Client() {
-        // Initialize yourTurn to false indicating it's not the player's turn initially
-        yourTurn = false;
-    }
-
-    // Static instance variable for the singleton Client
-    private static Client instance = null;
-
-    /**
-     * Singleton design pattern implementation.
-     * Returns the single instance of the Client class.
-     * 
-     * @return Client instance
-     */
-    @SuppressWarnings("DoubleCheckedLocking") // Suppresses warnings about the double-checked locking idiom
-    public static Client getInstance() {
-        if (instance == null) { // If no instance exists
-            synchronized (Client.class) { // Synchronize on the Client class
-                if (instance == null)
-                    instance = new Client(); // Create new instance if still null
-            }
-        }
-        return instance; // Return the single instance
-    }
-
-    private Socket socket; // Socket for network communication
-
-    // Method to set the socket
-    public void setSocket(Socket s) {
-        socket = s; // Assign the provided socket to the instance variable
-    }
-
-    private Color color = null; // Color representing some state of the client
-
-    /**
-     * Setter for the color property.
-     * Converts the given string to a Color enum and updates the UI.
-     * 
-     * @param color Color name as a string
-     */
-    public void setColor(String color) {
-        this.color = Color.valueOf(color); // Convert string to Color enum
-        UIApp.updateLabel(); // Update the UI to reflect the changed color
-    }
-
-    /**
-     * Getter for the color property.
-     * 
-     * @return current color of the client
-     */
-    public Color getColor() {
-        System.out.println(color.toString()); // Print the color to the console
-        return color; // Return the current color
-    }
-
-    /**
-     * Method to start the client, initializing threads for sending and receiving
-     * data.
-     * 
-     * @throws InterruptedException if thread execution is interrupted
-     */
-    public void start() throws InterruptedException {
-        BlockingQueue<Move> uiActionQueue = new LinkedBlockingQueue<>(); // Initialize UI action queue
-
-        // Create threads for sender, receiver, and UI handling
-        Thread senderThread = new Thread(new Sender(socket, uiActionQueue));
-        Thread receiverThread = new Thread(new Receiver(socket));
-        Thread uiThread = new Thread(new UIThread(uiActionQueue));
-
-        uiThread.start(); // Start the UI thread
-
-        // Wait for the board panel to be initialized
-        while (UIApp.boardPanel == null) {
-            Thread.sleep(100); // Sleep for a short duration before checking again
-        }
-
-        senderThread.start(); // Start the sender thread
-        receiverThread.start(); // Start the receiver thread
-
-        // Wait for all threads to finish execution
-        uiThread.join();
-        senderThread.join();
-        receiverThread.join();
-    }
-
-    private boolean yourTurn = false; // Indicates if it's the player's turn
-
-    /**
-     * Checks if it's the current user's turn.
-     * 
-     * @return true if it's the user's turn, otherwise false
-     */
-    public boolean isYourTurn() {
-        return yourTurn; // Return the state of yourTurn
-    }
-
-    // Setter to update if it's the player's turn
-    public void setYourTurn(boolean b) {
-        yourTurn = b; // Update the yourTurn field
-    }
-
-    private Color winningColor; // Color of the winning player
-
-    /**
-     * Getter to retrieve the winning color.
-     * 
-     * @return Color of the winning player
-     */
-    public Color getWinningColor() {
-        return winningColor; // Return the winning color
-    }
-
-    private Variant variant; // Variant representing game settings
-
-    // Setter for the game variant
-    public void setVariant(Variant setVar) {
-        System.out.println(setVar.toString()); // Print the variant to the console
-        variant = setVar; // Set the provided variant
-    }
-
-    // Getter for the game variant
-    public Variant getVariant() {
-        return variant; // Return the current variant
-    }
->>>>>>> Stashed changes
 }

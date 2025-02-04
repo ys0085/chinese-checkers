@@ -1,0 +1,27 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>250</x><y>30</y><w>210</w><h>70</h></coordinates><panel_attributes>Client
+--
+Przechowuje dane o obecnej
+sesji klienta</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>190</y><w>100</w><h>30</h></coordinates><panel_attributes>Sender</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>190</y><w>100</w><h>30</h></coordinates><panel_attributes>Reciever</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>210</y><w>30</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>210</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>60</y><w>170</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>150;130;150;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>90</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>190</y><w>100</w><h>30</h></coordinates><panel_attributes>UIThread</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>310</y><w>210</w><h>100</h></coordinates><panel_attributes>UIApp
+--
+Przechowuje elementy UI
+--
+- BoardPanel
+- TurnLabel
+--
+- update()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>0</y><w>150</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-
+singleton</panel_attributes><additional_attributes>30;50;80;50;80;10;10;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>490</y><w>210</w><h>90</h></coordinates><panel_attributes>BoardPanel
+--
+- Hex[][]
+- Board
+--
+- parseMove()
+- move()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>630</y><w>100</w><h>50</h></coordinates><panel_attributes>Hex
+--
+int x, y</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>490</y><w>100</w><h>80</h></coordinates><panel_attributes>Board
+--
+Tiles[][]
+--
+- fillBoard()
+- validateMove()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>360</x><y>340</y><w>310</w><h>40</h></coordinates><panel_attributes>Server</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>100</x><y>570</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>60</y><w>110</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;130;10;10;90;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>210</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>400</y><w>30</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;90;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>260</x><y>530</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element></diagram>
